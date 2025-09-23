@@ -1,0 +1,48 @@
+{
+    "maxCountForInfoPages": [
+        {
+            "name": "5 pages",
+            "value": 5
+        },
+        {
+            "name": "10 pages",
+            "value": 10
+        },
+        {
+            "name": "20 pages",
+            "value": 20
+        },
+        {
+            "name": "30 pages",
+            "value": 30
+        },
+        {
+            "name": "50 pages",
+            "value": 50
+        },
+        {
+            "name": "100 pages",
+            "value": 100
+        }
+    ],
+    "defaultMaxCountForInfoPages": 100,
+    "maxCountForInfoTerminals": [
+        {
+            "name": "5 Terminals",
+            "value": 5
+        },
+        {
+            "name": "10 Terminals",
+            "value": 10
+        },
+        {
+            "name": "20 Terminals",
+            "value": 20
+        },
+        {
+            "name": "30 Terminals",
+            "value": 30
+        }
+    ],
+    "defaultMaxCountForInfoTerminals": 30
+}

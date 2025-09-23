@@ -1,0 +1,7 @@
+{
+    "php.debug.executablePath": "C:\\xampp\\php\\php.exe",
+    "phpserver.phpConfigPath": "C:\\xampp\\php\\php.ini",
+    "phpserver.phpPath": "C:\\xampp\\php\\php.exe",
+    "phpserver.port": 3000,
+    "composer.inlayVersionEnabled": false
+}

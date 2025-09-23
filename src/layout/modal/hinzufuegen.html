@@ -1,0 +1,30 @@
+<div class="modal fade" id="modal_hinzufuegen" tabindex="-1" role="dialog" aria-labelledby="modalHinzufuegenLabel"
+  aria-hidden="true">
+  <div class="modal-dialog  modal-md modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-center align-items-center">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+        <button id="addCardToUmgebung" type="button" class="btn btn-success" data-bs-dismiss="modal"
+          onclick="Beziehungen.remove_generate(Infoseite.selectedID, Beziehungen.temp_list_add, 'insert_Relation')">Hinzufügen</button>
+      </div>
+      <!-- Hier dein Formular oder Inhalt -->
+      <table class="table table-hover position-relative">
+        <thead>
+
+          <tr>
+            <th>Titel</th>
+            <th>Hinzufügen</th>
+          </tr>
+
+        </thead>
+        <tbody id="tabelleAdd">
+
+        </tbody>
+      </table>
+
+      <div class="modal-footer">
+
+      </div>
+    </div>
+  </div>
+</div>

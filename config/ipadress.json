@@ -1,0 +1,9 @@
+{
+  "serverName": "10.1.6.3",
+  "Database": "testdbTerminal",
+   "UID": "sa",
+  "PWD": "A%00000p&",
+  "Encrypt": true,
+  "TrustServerCertificate": true,
+  "CharacterSet": "UTF-8"
+}
