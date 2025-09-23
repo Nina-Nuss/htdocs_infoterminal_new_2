@@ -176,7 +176,7 @@ if (isset($_COOKIE['isAdmin'])) {
 
 
                                     </div>
-                                    <div class="card-bottom   center-bottom d-flex justify-content-center p-3" style="border-top: none;">
+                                    <div class="card-bottom  d-flex justify-content-center p-3" style="border-top: none;">
                                         <button type="button" class="btn btn-sm btn-danger" style="width: 150px;"
                                             onclick="bereinigeDatenbankUndFolder()">
                                             <i class="fas fa-broom me-2"></i> Daten bereinigen
@@ -248,7 +248,7 @@ if (isset($_COOKIE['isAdmin'])) {
                                     </div>
 
                                 </div>
-                                <div class="center-bottom d-flex justify-content-center p-3">
+                                <div class="card-bottom d-flex justify-content-center p-3">
                                     <button class="btn btn-sm btn-success shadow-sm" onclick="Crud.add_user()" style="width: 150px;">
                                         <i class="fas fa-user-plus me-2"></i> Hinzufügen
                                     </button>
@@ -265,7 +265,7 @@ if (isset($_COOKIE['isAdmin'])) {
                                 <div class="card-body flex-column">
                                     <div class="form-group
                                     mb-3">
-                                        <label for="userSelect" class="form-label">
+                                        <label  class="form-label">
                                             <i class="fas fa-list me-2"></i> Benutzer auswählen:
                                         </label>
                                     </div>

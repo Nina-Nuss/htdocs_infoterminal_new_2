@@ -96,7 +96,7 @@ class Crud {
     }
 
     static async add_user() {
-        
+        debugger
         var username = document.getElementById("username");
         var password = document.getElementById("password");
         var is_admin = document.getElementById("isAdmin");
@@ -112,14 +112,16 @@ class Crud {
             },
             body: JSON.stringify({ username: username.value, password: password.value, is_admin: is_admin.value })
         });
-        if (response.ok) {
+        if (response.success) {
             const data = await response.json();
             console.log('User erfolgreich hinzugefügt:', data);
+            alert('User erfolgreich hinzugefügt');
             await User.update(); // Aktualisieren der Benutzerliste
             // Formular zurücksetzen
 
         } else {
             console.error('Fehler beim Hinzufügen des Users:', response.statusText);
+            alert('Fehler beim Hinzufügen des Users');
         }
         username.value = '';
         password.value = '';

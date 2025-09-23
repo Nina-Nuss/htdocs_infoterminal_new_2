@@ -3,7 +3,7 @@
 session_start();
 
 ob_start();
-include '../php/selectUser.php';
+include 'selectUser.php';
 include("../../config/php/connection.php");
 ob_clean();
 // if($_SERVER["REQUEST_METHOD"] != "POST"){
@@ -19,7 +19,6 @@ $username = $data['username'] ?? 'admin'; // Beispiel-Username
 $password = $data['password'] ?? '0000'; // Beispiel-Password
 $role = $data['is_admin'] ?? 1; // Beispiel-Rolle
 $isActive = $data['is_active'] ?? 1; // Beispiel-Aktivstatus (1 = aktiv, 0 = inaktiv)
-
 
 
 if (strpos($username, ' ') !== false) {
