@@ -13,7 +13,6 @@
 
         .temp {
             font-size: 4vh;
-            margin-right: 2vh;
             font-weight: bold;
         }
 
@@ -22,10 +21,9 @@
             font-size: 0.9em;
             color: #555;
         }
-
         .icon {
             width: 15vh;
-            margin-right: 1vh;
+           ;
         }
 
         button {
