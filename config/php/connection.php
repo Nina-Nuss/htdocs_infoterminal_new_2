@@ -4,12 +4,12 @@
 // Versuche Konfiguration aus JSON-Datei zu laden
 
 // $server =  "10.1.6.3";
-$serverName = "Nina\\SQLEXPRESS";
+$serverName = "10.1.6.3";
 
-// $serverName = "Nina\\SQLEXPRESS";
+// $serverName = "10.1.6.3";
 $database = "testdbTerminal";
-$UID = "";
-$PWD = "";
+$UID = "sa";
+$PWD = "A%00000p&";
 
 
 $connectionOptions = array(
@@ -32,6 +32,14 @@ if (!$conn) {
     // echo "Verbindung erfolgreich hergestellt.";
 }
 ?>
+
+
+
+
+
+
+
+
 
 
 

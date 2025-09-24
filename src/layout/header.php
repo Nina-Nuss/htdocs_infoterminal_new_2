@@ -48,6 +48,7 @@
         if(window.location.pathname.includes("dashboard.php") || window.location.pathname.includes("adminbereich.php")) {
             var headerTitle = document.getElementById("headerTitle")
             headerTitle.innerText = "Infoterminal CJD Dashboard"
+            
         }
     }
 
