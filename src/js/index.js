@@ -398,7 +398,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('themeToggle')) {
         document.getElementById('themeToggle').addEventListener('click', () => {
             const root = document.documentElement;
-            
             if (root.getAttribute('dark') || root.getAttribute('data-bs-theme') === 'dark') {
                 root.setAttribute('data-bs-theme','light');
                 root.removeAttribute('data-bs-theme');

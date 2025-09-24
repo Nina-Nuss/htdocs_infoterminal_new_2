@@ -20,7 +20,9 @@ $imagesContainer = array();
 
 $resultContainer = array();
 
-$schemaList = $schemaList1; //Schemas
+$schemaList = &$schemaList1; //Schemas
+
+
 $infotherminalList = json_decode($infotherminalList); //Infoterminals
 $relationList = json_decode($beziehungsList); //Beziehungen
 

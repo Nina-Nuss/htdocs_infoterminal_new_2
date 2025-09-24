@@ -112,15 +112,13 @@ class Crud {
             },
             body: JSON.stringify({ username: username.value, password: password.value, is_admin: is_admin.value })
         });
-        var responseText = await response.text();
-        console.log('Response Text:', responseText); // Debug-Ausgabe des rohen Antworttexts
-        if (responseText) {
-            const data = await response.json();
+        const data = await response.text();
+        console.log('Response Text:', data); // Debug-Ausgabe des rohen Antworttexts
+        if (data) {
             console.log('User erfolgreich hinzugefügt:', data);
             alert('User erfolgreich hinzugefügt');
             await User.update(); // Aktualisieren der Benutzerliste
             // Formular zurücksetzen
-
         } else {
             console.error('Fehler beim Hinzufügen des Users:', response.statusText);
             alert('Fehler beim Hinzufügen des Users');
