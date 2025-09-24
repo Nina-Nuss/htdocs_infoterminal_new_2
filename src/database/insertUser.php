@@ -22,12 +22,12 @@ $isActive = $data['is_active'] ?? 1; // Beispiel-Aktivstatus (1 = aktiv, 0 = ina
 
 
 if (strpos($username, ' ') !== false) {
-    echo json_encode(['success' => false, 'message' => "Im Benutzernamen befindet sich ein Leerzeichen."]);
+    echo false;
     exit;
 }
 foreach ($userList as $row) {
     if (isset($row['username']) && $row['username'] === $username) {
-        echo json_encode(['success' => false, 'message' => 'Benutzername existiert bereits.']);
+        echo false;
         exit;
     }
 }
@@ -42,7 +42,7 @@ $insertResult = sqlsrv_query($conn, $insertSql, $insertParams);
 if ($insertResult === false) {
     die(print_r(sqlsrv_errors(), true));
 } else {
-    echo json_encode(['success' => true, 'message' => 'User erfolgreich eingefügt.']);
+    echo true;
 }
 sqlsrv_free_stmt($insertResult);
 

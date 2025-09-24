@@ -112,7 +112,9 @@ class Crud {
             },
             body: JSON.stringify({ username: username.value, password: password.value, is_admin: is_admin.value })
         });
-        if (response.ok) {
+        var responseText = await response.text();
+        console.log('Response Text:', responseText); // Debug-Ausgabe des rohen Antworttexts
+        if (responseText) {
             const data = await response.json();
             console.log('User erfolgreich hinzugefügt:', data);
             alert('User erfolgreich hinzugefügt');
