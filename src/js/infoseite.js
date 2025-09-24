@@ -1095,9 +1095,9 @@ async function sendDatei(event) {
         alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
         return false;
     }
-    if(datai.size > 1024 * 1024 * 1024) { // 1 GB in Bytes
-        alert("Die Datei ist zu groß. Bitte wählen Sie eine Datei unter 1 GB.");
-        return false;
+    if(datai.size > 7.8 * 1024 * 1024) { // 8 MB in Bytes
+        alert("Die Datei ist zu groß. Bitte wählen Sie eine Datei unter 8 MB.");
+            return false;
     }
     // Bild hochladen und vom Server den Dateinamen erhalten
     console.log("image: ", datai.name);
