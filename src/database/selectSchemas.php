@@ -70,5 +70,6 @@ sqlsrv_free_stmt($result);
 // JSON-Ausgabe
 $schemaList = json_encode($schemaList1);
 
+echo $schemaList;
 
 sqlsrv_close($conn);

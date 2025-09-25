@@ -36,7 +36,6 @@ header('Access-Control-Allow-Origin: *');
   max-width: 300px;">
                 <?php include $_SERVER['DOCUMENT_ROOT'] . '/src/layout/sidebar.php'; ?>
             </div>
-
             <div class="text-center">
                 <?php include $_SERVER['DOCUMENT_ROOT'] . '/src/layout/selectPanel.php'; ?>
                 <hr>

@@ -23,9 +23,7 @@
                                             <label for="schemaSelect" class="form-label">
                                                 <div class="fas fa-list me-2"></div> Schema auswählen:
                                             </label>
-
                                         </div>
-
                                         <div style="max-height: 300px; overflow-y: auto;">
                                             <table class="table table-hover position-relative">
                                                 <thead>

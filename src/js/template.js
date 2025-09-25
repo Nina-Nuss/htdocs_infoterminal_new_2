@@ -1,6 +1,7 @@
 class Template {
     static list = []
-    constructor(templateName, typ, inhalt) { 
+    constructor(id, templateName, typ, inhalt) {
+        this.id = id;
         this.templateName = templateName
         this.typ = typ
         this.inhalt = inhalt
@@ -82,7 +83,6 @@ class Template {
         document.body.appendChild(img); // Add the new image to the body
     }
     static createYoutubeVid(element) {
-      
         var start; // Standard Startzeit
         var end; // Standard Endzeit
         let embedSrc = '';
@@ -110,12 +110,12 @@ class Template {
                 if (videoId.includes('&end=')) {
                     end = videoId.split('&end=')[1].split('&')[0];
                 }
-              
+
             } else if (element.includes("shorts/")) {
                 videoId = element.split("shorts/")[1].split('&')[0];
             }
             embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&start=${start}&end=${end}&rel=0&controls=0&loop=1&playlist=${videoId}&cc_load_policy=1&cc_lang_pref=de
-(Source: socialmediaone.de)`;
+(Quelle: socialmediaone.de)`;
             sourceText = "Quelle: https://www.youtube.com/watch?v=" + videoId.split('&')[0];
         }
         const iframe = document.createElement("iframe");
@@ -143,28 +143,51 @@ class Template {
         document.body.innerHTML = ''; // Clear the body content
         document.body.appendChild(video); // Add the new video to the body
     }
-    static createVorlageA(inhalt) {
-        debugger
+    static createVorlageA(id) {
+        let listInhalt = [];
         const container = document.createElement('div');
-        new Template(inhalt[0], inhalt[1], inhalt[2]);
         container.className = "vorlageA";
-        container.innerHTML = `
-            <h2>:</h2>
-            <p>Inhalt für Vorlage A</p>
-        `;
+        for (let index = 0; index < Template.list.length; index++) {
+            if (Template.list[index].id == id) {
+                listInhalt.push(Template.list[index]);
+            };
+        }
+        for (let index = 0; index < listInhalt.length; index++) {
+            const element = listInhalt[index];
+            const section = document.createElement('section');
+            section.innerHTML = `
+                <h2>${element.templateName}</h2>
+                <p>${element.typ}</p>
+            `;
+            container.appendChild(section);
+        }
         document.body.innerHTML = ''; // Clear the body content
         document.body.appendChild(container);
-        this.list = [];
     }
-    static createVorlageB(element) {
+    static createVorlageB(id) {
+        debugger
+        let listInhalt = [];
         const container = document.createElement('div');
         container.className = "vorlageB";
-        container.innerHTML = `
-           <h2>Vorlage B</h2>
-           <p>Inhalt für Vorlage B</p>
-       `;
-        document.body.appendChild(container);
+        document.body.innerHTML = ''; // Clear the body content
+        for (let index = 0; index < Template.list.length; index++) {
+            if (Template.list[index].id != id) continue;
+            listInhalt.push(Template.list[index]);
+        }
+        for (const element of listInhalt) {
+            const section = document.createElement('section');
+            section.innerHTML = `
+                <h2>${element.templateName}</h2>
+                <p>${element.typ}</p>
+            `;
+            container.appendChild(section);
+            document.body.appendChild(container);
+        }
     }
-
 }
-Template.selectTemplate("img");
+
+if (document.getElementById('inputGroupSelect01')) {
+    Template.selectTemplate("img")
+}
+
+

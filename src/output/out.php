@@ -104,6 +104,7 @@
         const ort = params.get('ip');
         const template = params.get('template');
         let akutellesTemp = null;
+
         try {
             if (template) {
                 console.log("Template geladen");
@@ -136,6 +137,7 @@
                 return;
             }
             let data = await response.json();
+            Template.list = [];
             for (const element of data) {
                 console.log(element[0]);
                 const inhalt = await fetch("../database/selectTemplates.php?schema_id=" + element[0]);
@@ -143,7 +145,7 @@
                 console.log(response);
                 for (const key of response) {
                     console.log(key[2]);
-                    new Template(key[2], key[3], key[4]);
+                    new Template(key[1], key[2], key[3], key[4]);
                 }
             }
             console.log(Template.list);
@@ -188,6 +190,7 @@
                         await sleep(element[2]);
                     } else if (element[1].startsWith('tempB_')) {
                         Template.createVorlageB(element[0])
+                        await sleep(element[2]);
                     }
                     if (data.length === 0) {
                         console.error('Daten sind leer, versuche Seite neu zu laden');
@@ -203,6 +206,8 @@
     }
     window.addEventListener('DOMContentLoaded', async () => {
         try {
+
+
             carousel();
         } catch (error) {
             console.error('Fetch error:', error);
