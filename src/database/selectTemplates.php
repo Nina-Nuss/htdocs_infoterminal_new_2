@@ -4,8 +4,11 @@ ob_start();
 include '../../config/php/connection.php';
 ob_clean();
 
+$schema_id = $_GET['schema_id'];
+
 $sql2 = "SELECT templates.* FROM schemas 
-            RIGHT JOIN templates ON templates.fk_schema_id = schemas.id 
+            RIGHT JOIN templates ON templates.fk_schema_id = schemas.id
+            WHERE templates.fk_schema_id = $schema_id
            ";
 
 $result2 = sqlsrv_query($conn, $sql2);
@@ -32,6 +35,8 @@ sqlsrv_free_stmt($result2);
 
 // JSON-Ausgabe
 $templatesListJson = json_encode($templatesList);
+
+echo $templatesListJson;
 
 
 

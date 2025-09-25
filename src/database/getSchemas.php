@@ -4,7 +4,7 @@
 ob_start();
 
 // Pfad zum gewünschten Ordner
-include("selectSchemasTemplate.php");
+include("selectSchemas.php");
 include("selectInfotherminal.php");
 include("selectRelation.php");
 
@@ -20,8 +20,7 @@ $imagesContainer = array();
 
 $resultContainer = array();
 
-$schemaList = &$schemaList1; //Schemas
-
+$schemaList = json_decode($schemaList); //Schemas
 
 $infotherminalList = json_decode($infotherminalList); //Infoterminals
 $relationList = json_decode($beziehungsList); //Beziehungen

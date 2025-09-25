@@ -14,7 +14,7 @@
         integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/"
         crossorigin="anonymous"></script>
     <!-- <meta http-equiv="Permissions-Policy" content="compute-pressure=()"> -->
-     <script src="../js/template.js"></script>
+    <script src="../js/template.js"></script>
 
 
 </head>
@@ -103,6 +103,7 @@
         const params = new URLSearchParams(window.location.search);
         const ort = params.get('ip');
         const template = params.get('template');
+        let akutellesTemp = null;
         try {
             if (template) {
                 console.log("Template geladen");
@@ -124,7 +125,6 @@
                     ip: ort
                 }), // Beispieldaten
             });
-
             if (!response.ok) {
                 if (response.status === 404) {
                     console.error('404 Not Found: URL nicht gefunden');
@@ -135,10 +135,19 @@
                 console.error('Error fetching data:', response.status, response.statusText);
                 return;
             }
-
             let data = await response.json();
+            for (const element of data) {
+                console.log(element[0]);
+                const inhalt = await fetch("../database/selectTemplates.php?schema_id=" + element[0]);
+                const response = await inhalt.json();
+                console.log(response);
+                for (const key of response) {
+                    console.log(key[2]);
+                    new Template(key[2], key[3], key[4]);
+                }
+            }
+            console.log(Template.list);
             console.log(data);
-
             while (data.length === 0) {
                 console.error('No data received or data is null/undefined');
                 document.body.innerHTML = '<h5 class="text-danger d-flex justify-content-center align-items-center vh-100">Kein Inhalt verfügbar, bitte haben Sie Geduld...</h5>';
@@ -152,19 +161,16 @@
                         ip: ort
                     }), // Beispieldaten
                 });
-
                 if (!retryResponse.ok) {
                     console.error('Error fetching data:', retryResponse.statusText);
                     return;
                 }
-
                 const retryData = await retryResponse.json();
                 console.log('Retry data:', retryData);
                 if (retryData.length > 0) {
                     data = retryData; // Aktualisiere die Daten, wenn sie jetzt verfügbar sind
                 }
             }
-
             console.log('Received data:', data);
             while (true) {
                 for (const element of data) {
@@ -177,15 +183,11 @@
                     } else if (element[1].startsWith('yt_')) {
                         Template.createYoutubeVid(element[1])
                         await sleep(element[2]);
-                    }
-                    else if (element[1].startsWith('tempA_')) {
-                        debugger
-                        console.log(element);
-                        inhalt = element.slice(12)
-                        Template.createVorlageA(inhalt)
+                    } else if (element[1].startsWith('tempA_')) {
+                        Template.createVorlageA(element[0])
                         await sleep(element[2]);
-                    }else if (element[1].startsWith('tempB_')) {
-                        Template.createVorlageB(element)
+                    } else if (element[1].startsWith('tempB_')) {
+                        Template.createVorlageB(element[0])
                     }
                     if (data.length === 0) {
                         console.error('Daten sind leer, versuche Seite neu zu laden');
@@ -197,7 +199,6 @@
         } catch (error) {
             console.error('Fetch error:', error);
             errorAnzeige();
-
         }
     }
     window.addEventListener('DOMContentLoaded', async () => {
@@ -209,7 +210,6 @@
         }
 
     });
-
 </script>
 
 
