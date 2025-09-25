@@ -107,11 +107,11 @@
             if (template) {
                 console.log("Template geladen");
                 if (template.includes('img_')) {
-                    createPic(template);
+                    Template.createPic(template);
                 } else if (template.includes('video_')) {
-                    createVid(template);
+                    Template.createVid(template);
                 } else if (template.includes('yt_')) {
-                    createYoutubeVid(template);
+                    Template.createYoutubeVid(template);
                 }
                 return;
             }
@@ -178,11 +178,15 @@
                         Template.createYoutubeVid(element[1])
                         await sleep(element[2]);
                     }
-                    // }else if (element[1].startsWith('tempA_')) {
-                    //     Template.createVorlageA(element[1])
-                    // }else if (element[1].startsWith('tempB_')) {
-                    //     Template.createVorlageB(element[1])
-                    // }
+                    else if (element[1].startsWith('tempA_')) {
+                        debugger
+                        console.log(element);
+                        inhalt = element.slice(12)
+                        Template.createVorlageA(inhalt)
+                        await sleep(element[2]);
+                    }else if (element[1].startsWith('tempB_')) {
+                        Template.createVorlageB(element)
+                    }
                     if (data.length === 0) {
                         console.error('Daten sind leer, versuche Seite neu zu laden');
                         location.reload();

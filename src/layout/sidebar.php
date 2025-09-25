@@ -1,5 +1,5 @@
 <div id="rowForCards" class="text-center">
-    <div style="height: 90vh;">
+    <div style="height: 87vh;">
         <div class="d-flex flex-column">
             <select id="selectorInfoterminalForCards" class="form-select shadow-sm" aria-label="Default select example">
                 <option selected>Open this select menu</option>

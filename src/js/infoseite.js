@@ -984,8 +984,6 @@ async function meow(event, selectedValue, link, start, end) {
         alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
         return;
     }
-
-
     // else if(datai.startsWith("yt")){
     //      if (!datai || titel === "" || selectedTime === null || aktiv === null) {
     //         alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
@@ -994,7 +992,6 @@ async function meow(event, selectedValue, link, start, end) {
     // }
     let validLink = "";
     let prefix = "";
-
     if (selectedValue === "img") {
         const result = await sendDatei(event);
         if (result) {
@@ -1136,7 +1133,6 @@ async function sendDatei(event) {
     }
     await createInfoseiteObj(serverImageName, selectedTime, aktiv, titel, description);
     form.reset(); // Formular zurücksetzen
-
     Template.resetForm("infoSeiteForm");
     return true;
 }
@@ -1167,8 +1163,7 @@ async function sendPicture(datai) {
     }
 }
 async function insertDatabase(cardObj) {
-    ;
-    // Erstellen eines JSON-Objekts
+     // Erstellen eines JSON-Objekts
     const jsonData = {
         titel: cardObj.titel,
         beschreibung: cardObj.beschreibung,

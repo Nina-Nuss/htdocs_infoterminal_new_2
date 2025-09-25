@@ -66,7 +66,7 @@
             const data = await res.json();
             showWeather(data);
         } catch (err) {
-            document.getElementById("weather").innerHTML = `<p style="color:red;">${err.message}</p>`;
+            document.getElementById("weather").innerHTML = ``;
         } finally {
             inflight = false;
         }

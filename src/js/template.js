@@ -1,4 +1,12 @@
 class Template {
+    static list = []
+    constructor(templateName, typ, inhalt) { 
+        this.templateName = templateName
+        this.typ = typ
+        this.inhalt = inhalt
+        Template.list.push(this);
+    }
+
     static selectTemplate(template) {
         var fileInput = document.getElementById('img');
         var inputGroupSelect01 = document.getElementById('inputGroupSelect01');
@@ -74,7 +82,7 @@ class Template {
         document.body.appendChild(img); // Add the new image to the body
     }
     static createYoutubeVid(element) {
-        debugger
+      
         var start; // Standard Startzeit
         var end; // Standard Endzeit
         let embedSrc = '';
@@ -102,8 +110,7 @@ class Template {
                 if (videoId.includes('&end=')) {
                     end = videoId.split('&end=')[1].split('&')[0];
                 }
-                console.log(start);
-                console.log(end);
+              
             } else if (element.includes("shorts/")) {
                 videoId = element.split("shorts/")[1].split('&')[0];
             }
@@ -136,14 +143,18 @@ class Template {
         document.body.innerHTML = ''; // Clear the body content
         document.body.appendChild(video); // Add the new video to the body
     }
-    static createVorlageA(element) {
+    static createVorlageA(inhalt) {
+        debugger
         const container = document.createElement('div');
+        new Template(inhalt[0], inhalt[1], inhalt[2]);
         container.className = "vorlageA";
         container.innerHTML = `
-            <h2>Vorlage A</h2>
+            <h2>:</h2>
             <p>Inhalt für Vorlage A</p>
         `;
+        document.body.innerHTML = ''; // Clear the body content
         document.body.appendChild(container);
+        this.list = [];
     }
     static createVorlageB(element) {
         const container = document.createElement('div');
