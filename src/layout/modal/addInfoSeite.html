@@ -1,5 +1,4 @@
-<div class="modal fade" id="addInfoSeite" tabindex="-1" role="dialog" aria-labelledby="addInfoSeiteLabel"
-    >
+add<div class="modal fade" id="addInfoSeite" tabindex="-1" role="dialog" aria-labelledby="addInfoSeiteLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -27,10 +26,9 @@
                             <i class="fab fa-youtube me-2"></i> Link auswählen <span style="color:red">*</span>
                         </label>
                         <div class="input-group mb-3">
-                            <span class="input-group-text"  id="inputGroup-sizing-default">URL:</span>
-                            <input type="text" class="form-control" id="youtubeUrl" name="youtubeUrl" placeholder="Youtube Link eingeben"
-
-                                aria-describedby="inputGroup-sizing-default">
+                            <span class="input-group-text" id="inputGroup-sizing-default">URL:</span>
+                            <input type="text" class="form-control" id="youtubeUrl" name="youtubeUrl"
+                                placeholder="Youtube Link eingeben" aria-describedby="inputGroup-sizing-default">
                         </div>
                         <label for="img" class="form-label">
                             <i class="fab fa-youtube me-2"></i> Video Timestamp in Sekunden (optional)
@@ -54,8 +52,7 @@
                             <div id="previewContainer" style="display:none; margin-top:10px;">
                                 <img id="imgPreview" src="#" alt="Bild-Vorschau"
                                     style="max-width:100%; max-height:200px;">
-                                <video id="videoPreview" controls muted
-                                    style="max-width:100%; max-height:200px;">
+                                <video id="videoPreview" controls muted style="max-width:100%; max-height:200px;">
                                     <source src="#" type="video/mp4">
                                     Ihr Browser unterstützt das Video-Element nicht.
                                 </video>
@@ -71,7 +68,7 @@
                             <label for="title" class="form-label">
                                 <i class="fas fa-tag me-2"></i> Name: <span style="color:red">*</span>
                             </label>
-                            <input type="text" class="form-control" id="title" name="title" value="" 
+                            <input type="text" class="form-control" id="title" name="title" value=""
                                 placeholder="Infoseite Name eingeben">
                         </div>
 
@@ -125,12 +122,11 @@
 
     }
 </style>
-<script>
+<script> 
     var fileInput = document.getElementById('img');
     var selectItem = document.getElementById('inputGroupSelect01');
 
     const ytInput = document.getElementById('youtubeUrl');
- 
 
     selectItem.addEventListener('change', function () {
         var selectedValue = this.value;
@@ -157,9 +153,12 @@
 
         }
     });
-   
-
-
-
-
+    window.addEventListener("load", async function () {
+        const templatebereich = document.getElementById("templateBereich");
+        if (templatebereich !== null) {
+            templatebereich.addEventListener("click", async function (event) {
+                window.location.href = 'templatebereich.php';
+            });
+        }
+    });
 </script>

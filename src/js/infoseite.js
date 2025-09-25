@@ -94,15 +94,26 @@ class Infoseite {
 
     static preparePlaceHolder(imagePath) {
         let placeHolder = '';
+        let ext = [];
+        let videoExts = [];
+        let imageExts = [];
+        debugger
         // Prüfe, ob es eine unterstützte URL ist (YouTube, TikTok, Instagram usw.)
-        const embedUrl = Infoseite.getEmbedUrl(imagePath);
+        let embedUrl = Infoseite.getEmbedUrl(imagePath);
         if (embedUrl) {
             return placeHolder = `<iframe class="w-100 card-img-small"  src="${embedUrl}" title="Embedded content" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
         }
         // Prüfe, ob es ein Bild oder Video ist
-        const ext = imagePath.split('.').pop().toLowerCase();
-        const imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'html', 'php', 'docx', 'pdf'];
-        const videoExts = ['mp4', 'webm'];
+        if (imagePath.startsWith('img_') || imagePath.startsWith('video_')) {
+            ext = imagePath.split('.').pop().toLowerCase();
+            imageExts = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'html', 'php', 'docx', 'pdf'];
+            videoExts = ['mp4', 'webm'];
+        }
+
+
+        if (imagePath.startsWith('temp')) {
+            return placeHolder = `<img class="card-img-small" src="" alt="Bild" onerror="this.onerror=null; this.src=''">`;
+        }
 
         let src = `../../uploads/${imageExts.includes(ext) ? 'img' : 'video'}/${imagePath}`;
         console.log(src);
@@ -130,7 +141,6 @@ class Infoseite {
 
 
     static getEmbedUrl(url) {
-        if (typeof url !== "string") return null;
         if (url.includes("youtube.com")) {
             // Unterstützt auch youtu.be Kurzlinks
             const match = url.match(/(?:v=|\/embed\/|\/v\/|\/shorts\/|youtu\.be\/)([A-Za-z0-9_-]{11})/);
@@ -863,14 +873,7 @@ class Infoseite {
     }
 
 }
-window.addEventListener("load", async function () {
-    const templatebereich = document.getElementById("templateBereich");
-    if (templatebereich !== null) {
-        templatebereich.addEventListener("click", async function (event) {
-            window.location.href = 'templatebereich.php';
-        });
-    }
-});
+
 
 function combineDateTime(date, time) {
     return new Date(`${date}T${time}`);
@@ -957,13 +960,14 @@ function detectLinkType(link) {
 }
 
 async function meow(event, selectedValue, link, start, end) {
-
+    debugger
     event.preventDefault(); // Verhindert das Standardverhalten des Formulars
+    let { datai, selectedTime, aktiv, titel, description } = prepareFormData(event);
     console.log("Selected Value:", selectedValue);
     console.log("Link:", link);
     console.log("Start:", start);
     console.log("End:", end);
-
+   
     var start = Number(start);
     var end = Number(end);
     if (isNaN(start) || isNaN(end)) {
@@ -975,11 +979,19 @@ async function meow(event, selectedValue, link, start, end) {
         alert("Die Startzeit darf nicht größer als die Endzeit sein.");
         return;
     }
-    let {datai, selectedTime, aktiv, titel, description } = prepareFormData(event);
+
     if (!datai || titel === "" || selectedTime === null || aktiv === null) {
         alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
         return;
     }
+
+
+    // else if(datai.startsWith("yt")){
+    //      if (!datai || titel === "" || selectedTime === null || aktiv === null) {
+    //         alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
+    //         return;
+    //     }
+    // }
     let validLink = "";
     let prefix = "";
 
@@ -1077,14 +1089,23 @@ function checkTikTokUrl(url) {
 
 function prepareFormData(event) {
     event.preventDefault();
+    debugger
+    let datai = null;
     const form = event.target.form;
     const formData = new FormData(form);
-    const datai = formData.get('img');
+    console.log(formData); // Alle Formulardaten anzeigen
+    console.log(formData.get('img')); // Bilddatei anzeigen
+    console.log(formData.get('youtubeUrl'));
+    if (formData.get('img')) {
+        datai = formData.get('img');
+    } else if (formData.get('youtubeUrl')) {
+        datai = formData.get('youtubeUrl');
+    }
     const selectedTime = String(formData.get('selectedTime')); // Wert als Zahl
     const aktiv = formData.get('aktiv'); // Wert der ausgewählten Option
     const titel = formData.get('title');
     const description = formData.get('description');
-    return {formData, datai, selectedTime, aktiv, titel, description };
+    return { formData, datai, selectedTime, aktiv, titel, description };
 }
 
 async function sendDatei(event) {
@@ -1095,13 +1116,13 @@ async function sendDatei(event) {
         alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
         return false;
     }
-    if(datai.size > 7.8 * 1024 * 1024) { // 8 MB in Bytes
+    if (datai.size > 7.8 * 1024 * 1024) { // 8 MB in Bytes
         alert("Die Datei ist zu groß. Bitte wählen Sie eine Datei unter 8 MB.");
-            return false;
+        return false;
     }
     // Bild hochladen und vom Server den Dateinamen erhalten
     console.log("image: ", datai.name);
-    if(datai.name == "") {
+    if (datai.name == "") {
         alert("Bitte wählen Sie eine Datei aus.");
         return false;
     }
@@ -1115,7 +1136,7 @@ async function sendDatei(event) {
     }
     await createInfoseiteObj(serverImageName, selectedTime, aktiv, titel, description);
     form.reset(); // Formular zurücksetzen
-    
+
     Template.resetForm("infoSeiteForm");
     return true;
 }

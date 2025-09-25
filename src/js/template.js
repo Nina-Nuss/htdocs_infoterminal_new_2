@@ -1,19 +1,5 @@
 class Template {
-    constructor(name) {
-        this.name = name;
-        this.text1 = "text1";
-        this.text2 = "text2";
-        this.text3 = "text3";
-        this.text4 = "text4";
-        this.video = "text5";
-        this.text6 = "text6";
-        this.text7 = "text7";
-        this.text8 = "text8";
-        this.text9 = "text9";
-        this.text10 = "text10";
-    }
     static selectTemplate(template) {
-        
         var fileInput = document.getElementById('img');
         var inputGroupSelect01 = document.getElementById('inputGroupSelect01');
         var ytInput = document.getElementById('youtubeUrl');
@@ -45,7 +31,6 @@ class Template {
         }
     }
     static resetAll() {
-        
         let previewContainer = document.getElementById('previewContainer');
         let idsTwo = ["imgPreview", "videoPreview"];
         let idsOne = ["img", "youtubeUrl", "start", "end", "title", "description"];
@@ -72,7 +57,6 @@ class Template {
         previewContainer = null;
     }
     static resetForm(formType) {
-        
         if (formType === "infoSeiteForm") {
             this.resetAll(); // Alle Formularfelder zurücksetzen
             const modalElement = document.getElementById('addInfoSeite');
@@ -80,10 +64,96 @@ class Template {
             modalInstance.hide();
         }
     }
-    
-}
+    static createPic(element) {
+        const img = document.createElement('img');
+        img.src = "../../uploads/img/" + element;
+        img.className = "fullscreen";
+        img.alt = "Image";
 
+        document.body.innerHTML = ''; // Clear the body content
+        document.body.appendChild(img); // Add the new image to the body
+    }
+    static createYoutubeVid(element) {
+        debugger
+        var start; // Standard Startzeit
+        var end; // Standard Endzeit
+        let embedSrc = '';
+        let videoId = '';
+        let sourceText = '';
+        if (element.includes('tiktok') || element.includes('vm.tiktok.com')) {
+            isTikTok = true;
+            let videoId = '';
+            if (element.includes('/video/')) {
+                videoId = element.split('/video/')[1].split('?')[0];
+            } else if (element.includes('vm.tiktok.com/')) {
+                videoId = element.split('vm.tiktok.com/')[1].split('/')[0];
+            }
+            embedSrc = `https://www.tiktok.com/embed/v2/${videoId}`;
+            sourceText = "Quelle: " + element;
+        } else {
 
-if (Template) {
-    Template.selectTemplate("img");
+            if (element.includes("v=")) {
+                videoId = element.split("v=")[1];
+                console.log(videoId);
+
+                if (videoId.includes('&start=')) {
+                    start = videoId.split('&start=')[1].split('&')[0];
+                }
+                if (videoId.includes('&end=')) {
+                    end = videoId.split('&end=')[1].split('&')[0];
+                }
+                console.log(start);
+                console.log(end);
+            } else if (element.includes("shorts/")) {
+                videoId = element.split("shorts/")[1].split('&')[0];
+            }
+            embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&start=${start}&end=${end}&rel=0&controls=0&loop=1&playlist=${videoId}&cc_load_policy=1&cc_lang_pref=de
+(Source: socialmediaone.de)`;
+            sourceText = "Quelle: https://www.youtube.com/watch?v=" + videoId.split('&')[0];
+        }
+        const iframe = document.createElement("iframe");
+        iframe.src = embedSrc;
+        iframe.className = "fullscreenYoutube";
+        iframe.style.border = "none";
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true;
+        document.body.innerHTML = ''; // Clear the body content
+        document.body.appendChild(iframe);
+        const text = document.createElement("div");
+        text.classList = "textYoutube";
+        text.innerHTML = sourceText;
+        iframe.parentNode.appendChild(text);
+    }
+    static createVid(element) {
+        const video = document.createElement('video');
+        video.src = "../../uploads/video/" + element;
+        video.className = "fullscreen";
+        video.controls = true; // Video Controls hinzufügen
+        video.autoplay = true; // Video automatisch starten
+        video.loop = true; // Video in einer Schleife abspielen
+        video.playsInline = true; // Für mobile Geräte
+        video.muted = false; // Meistens erforderlich für Autoplay in Browsern
+        document.body.innerHTML = ''; // Clear the body content
+        document.body.appendChild(video); // Add the new video to the body
+    }
+    static createVorlageA(element) {
+        const container = document.createElement('div');
+        container.className = "vorlageA";
+        container.innerHTML = `
+            <h2>Vorlage A</h2>
+            <p>Inhalt für Vorlage A</p>
+        `;
+        document.body.appendChild(container);
+    }
+    static createVorlageB(element) {
+        const container = document.createElement('div');
+        container.className = "vorlageB";
+        container.innerHTML = `
+           <h2>Vorlage B</h2>
+           <p>Inhalt für Vorlage B</p>
+       `;
+        document.body.appendChild(container);
+    }
+
 }
+Template.selectTemplate("img");

@@ -36,7 +36,7 @@ $nowDateTime = $now->format('Y-m-d H:i');
 
 // $clientIP = $_SERVER['REMOTE_ADDR'];
 
-$ip = $input['ip'] ?? 'test1';
+$ip = $input['ip'] ?? 'Empfang';
 
 $therminal = array();
 
@@ -56,7 +56,6 @@ if (!$ipGefunden) {
 $timeIsBetween = false;
 $dateIsBetween = false;
 
-
 $relevantSchemaIds = [];
 foreach ($relationList as $relation) {
     if ($relation[1] == $id) { // $id ist der Terminal-ID
@@ -64,28 +63,31 @@ foreach ($relationList as $relation) {
 
     }
 }
+
+
 $relevantSchemas = [];
 foreach ($schemaList as $schema) {
     if (in_array($schema[0], $relevantSchemaIds) && $schema[3] == true) { // Schema-ID in relevanten IDs und aktiv
         $relevantSchemas[] = $schema;
     }
 }
-
 foreach ($relevantSchemas as $rs) {
     if (str_starts_with($rs[1], 'yt_')) {
         array_push($imagesContainer, $rs);
     } else if (in_array($rs[1], $images)) {
         array_push($imagesContainer, $rs);
+    } else if (str_starts_with($rs[1], 'temp')) {
+        array_push($imagesContainer, $rs);
     }
+    
 }
 
 
-foreach ($imagesContainer as $schema) {
 
+foreach ($imagesContainer as $schema) {
     // Hier können Sie die Bilder weiterverarbeiten
     $timeIsActive = filter_var($schema[8], FILTER_VALIDATE_BOOLEAN);
     $dateIsActive = filter_var($schema[9], FILTER_VALIDATE_BOOLEAN);
-
     $timeIsValid = false;
     $dateIsValid = false;
 
@@ -117,15 +119,6 @@ foreach ($imagesContainer as $schema) {
         }
     }
 }
-
-
-
-
-
-
-
-
-
 // foreach ($images as $image) {
 //     foreach ($schemaList as $schema) {
 //         if ($schema[1] == $image && $schema[3] == true) {
@@ -173,8 +166,6 @@ foreach ($imagesContainer as $schema) {
 //         }
 //     }
 // };
-
-
 function checkTime($start, $end, $format, $time)
 {
     // echo "  → Prüfe: '$start' bis '$end' (Format: $format), Jetzt: '$time'<br>";
