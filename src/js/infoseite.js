@@ -112,7 +112,10 @@ class Infoseite {
 
 
         if (imagePath.startsWith('temp')) {
-            return placeHolder = `<img class="card-img-small" src="" alt="Bild" onerror="this.onerror=null; this.src=''">`;
+            debugger 
+            console.log(imagePath);
+
+            return placeHolder = `<iframe class="card-img-small" src="../output/outTest.php?template=${imagePath}" alt="Bild" onerror="this.onerror=null; this.src=''"></iframe>`;
         }
 
         let src = `../../uploads/${imageExts.includes(ext) ? 'img' : 'video'}/${imagePath}`;

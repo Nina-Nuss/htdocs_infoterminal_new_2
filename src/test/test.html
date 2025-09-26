@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>JS Slider</title>
+  <style>
+    .slider-container {
+      width: 250px;
+      height: 150px;        /* zeigt mehrere Items gleichzeitig */
+      overflow: hidden;
+      border: 1px solid #ccc;
+      position: relative;
+    }
+
+    .slider-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      position: absolute;   /* wir verschieben mit JS */
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+
+    .slider-list li {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f9f9f9;
+      border-bottom: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="slider-container">
+    <ul class="slider-list" id="slider">
+      <li>Eintrag 1</li>
+      <li>Eintrag 2</li>
+      <li>Eintrag 3</li>
+      <li>Eintrag 4</li>
+      <li>Eintrag 5</li>
+      <li>Eintrag 6</li>
+      <li>Eintrag 7</li>
+    </ul>
+  </div>
+
+  <script>
+    const slider = document.getElementById("slider");
+    const items = slider.children;
+    const itemHeight = items[0].offsetHeight;
+
+    // Liste für Endlos-Loop duplizieren
+    slider.innerHTML += slider.innerHTML;
+
+    let offset = 0;
+    let speed = 1; // Pixel pro Frame
+
+    function animate() {
+      offset += speed;
+      slider.style.top = `-${offset}px`;
+
+      // wenn die Hälfte durchscrollt -> zurücksetzen
+      if (offset >= itemHeight * (items.length / 2)) {
+        offset = 0;
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>

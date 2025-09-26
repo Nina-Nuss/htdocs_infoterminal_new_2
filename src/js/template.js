@@ -1,5 +1,6 @@
 class Template {
     static list = []
+    static testAnzeige = []
     constructor(id, templateName, typ, inhalt) {
         this.id = id;
         this.templateName = templateName
@@ -144,22 +145,27 @@ class Template {
         document.body.appendChild(video); // Add the new video to the body
     }
     static createVorlageA(id) {
+        debugger
         let listInhalt = [];
-        const container = document.createElement('div');
-        container.className = "vorlageA";
+        let container = document.createElement('div');
+        container.className = "d-flex justify-content-between align-items-center";
         for (let index = 0; index < Template.list.length; index++) {
             if (Template.list[index].id == id) {
                 listInhalt.push(Template.list[index]);
             };
         }
         for (let index = 0; index < listInhalt.length; index++) {
-            const element = listInhalt[index];
-            const section = document.createElement('section');
-            section.innerHTML = `
-                <h2>${element.templateName}</h2>
-                <p>${element.typ}</p>
+            let element = listInhalt[index];
+            if (element.typ == "text") {
+                container.innerHTML += `
+                    <h1>${element.typ}</h1>
             `;
-            container.appendChild(section);
+            } else if (element.typ == "text") {
+                container.innerHTML += `
+                    <h1>${element.typ}</h1>
+            `;
+            }
+
         }
         document.body.innerHTML = ''; // Clear the body content
         document.body.appendChild(container);
@@ -167,21 +173,35 @@ class Template {
     static createVorlageB(id) {
         debugger
         let listInhalt = [];
-        const container = document.createElement('div');
+        let container = document.createElement('div');
         container.className = "vorlageB";
-        document.body.innerHTML = ''; // Clear the body content
+
         for (let index = 0; index < Template.list.length; index++) {
             if (Template.list[index].id != id) continue;
             listInhalt.push(Template.list[index]);
         }
-        for (const element of listInhalt) {
-            const section = document.createElement('section');
-            section.innerHTML = `
-                <h2>${element.templateName}</h2>
-                <p>${element.typ}</p>
+        for (let element of listInhalt) {
+            container.innerHTML += `
+                <h1>${element.inhalt}</h1>
             `;
-            container.appendChild(section);
-            document.body.appendChild(container);
+        }
+        console.log(container);
+        document.body.innerHTML = ''; // Clear the body content
+        document.body.appendChild(container);
+    }
+    static async getIdContent(id) {
+        debugger
+        console.log(id);
+        let inhalt = await fetch("../database/selectTemplates.php?schema_id=" + id);
+        console.log(inhalt);
+        
+        let response = await inhalt.json();
+        console.log("Response:", response);
+        
+        console.log(response);
+        for (const key of response) {
+            console.log(key[2]);
+            new Template(key[1], key[2], key[3], key[4]);
         }
     }
 }
