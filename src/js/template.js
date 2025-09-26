@@ -167,14 +167,14 @@ class Template {
             }
 
         }
-        document.body.innerHTML = ''; // Clear the body content
-        document.body.appendChild(container);
+        document.body.innerHTML = '';  // Body leeren
+        document.body.appendChild(container); // zum Body hinzufügen
     }
     static createVorlageB(id) {
         debugger
         let listInhalt = [];
         let container = document.createElement('div');
-        container.className = "vorlageB";
+        container.className = "d-flex justify-content-center align-items-center";
 
         for (let index = 0; index < Template.list.length; index++) {
             if (Template.list[index].id != id) continue;
@@ -186,7 +186,7 @@ class Template {
             `;
         }
         console.log(container);
-        document.body.innerHTML = ''; // Clear the body content
+        document.body.innerHTML = ''; // Body leeren
         document.body.appendChild(container);
     }
     static async getIdContent(id) {
