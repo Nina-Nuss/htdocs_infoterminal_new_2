@@ -122,7 +122,7 @@
 
     }
 </style>
-<script> 
+<script>
     var fileInput = document.getElementById('img');
     var selectItem = document.getElementById('inputGroupSelect01');
 
@@ -133,25 +133,39 @@
         debugger
         var Youtube = document.getElementById('YoutubeContainer');
         var datai = document.getElementById('dataiContainer');
+        var listSelect = [Youtube, datai];
         if (selectedValue === 'yt') {
             Template.resetAll();
-            Youtube.classList.remove('hidden');
-            datai.classList.add('hidden');
+            listSelect.forEach(function (element) {
+                if (element !== Youtube) element.classList.add('hidden');
+                else element.classList.remove('hidden');
+            });
             if (fileInput) {
                 fileInput.disabled = true;
                 fileInput.value = '';
             } if (ytInput) ytInput.disabled = false;
         } else if (selectedValue === 'img') {
             Template.resetAll();
-            Youtube.classList.add('hidden');
-            datai.classList.remove('hidden');
+            listSelect.forEach(function (element) {
+                if (element !== datai) element.classList.add('hidden');
+                else element.classList.remove('hidden');
+            });
             if (fileInput) fileInput.disabled = false;
             fileInput.value = '';
             if (ytInput) {
                 ytInput.disabled = true; // optional
             }
 
-        }
+        } 
+        // else if (selectedValue === 'templateTest') {
+        //     Template.resetAll();
+            
+        //     if (fileInput) fileInput.disabled = false;
+        //     fileInput.value = '';
+        //     if (ytInput) {
+        //         ytInput.disabled = true; // optional
+        //     }
+        // }
     });
     window.addEventListener("load", async function () {
         const templatebereich = document.getElementById("templateBereich");
