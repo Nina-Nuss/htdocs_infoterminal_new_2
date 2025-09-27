@@ -32,8 +32,10 @@ class Template {
             this.resetAll();
             Youtube.classList.add('hidden');
             datai.classList.remove('hidden');
-            if (fileInput) fileInput.disabled = false;
-            fileInput.value = '';
+            if (fileInput) {
+                fileInput.disabled = false;
+                fileInput.value = '';
+            }
             if (ytInput) {
                 ytInput.disabled = true; // optional
             }
@@ -145,7 +147,7 @@ class Template {
         document.body.appendChild(video); // Add the new video to the body
     }
     static createVorlageA(id) {
-      
+
         let listInhalt = [];
         let container = document.createElement('div');
         container.className = "d-flex justify-content-between align-items-center";
@@ -171,7 +173,7 @@ class Template {
         document.body.appendChild(container); // zum Body hinzufügen
     }
     static createVorlageB(id) {
-      
+
         let listInhalt = [];
         let container = document.createElement('div');
         container.className = "d-flex justify-content-center align-items-center";
@@ -190,20 +192,21 @@ class Template {
         document.body.appendChild(container);
     }
     static async getIdContent(id) {
-      
+
         console.log(id);
         let inhalt = await fetch("../database/selectTemplates.php?schema_id=" + id);
         console.log(inhalt);
-        
+
         let response = await inhalt.json();
         console.log("Response:", response);
-        
+
         console.log(response);
         for (const key of response) {
             console.log(key[2]);
             new Template(key[1], key[2], key[3], key[4]);
         }
     }
+
 }
 
 if (document.getElementById('inputGroupSelect01')) {

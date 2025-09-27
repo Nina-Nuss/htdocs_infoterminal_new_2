@@ -112,7 +112,7 @@ class Infoseite {
 
 
         if (imagePath.startsWith('temp')) {
-       
+
             console.log(imagePath);
 
             return placeHolder = `<iframe class="card-img-small" src="../output/outTest.php?template=${imagePath}"  alt="Bild" onerror="this.onerror=null; this.src=''"></iframe>`;
@@ -707,7 +707,7 @@ class Infoseite {
         }
     }
     static DateTimeHandler(cardObj) {
-
+        debugger
         console.log("DateTimeHandler aufgerufen für CardObjektID:", cardObj.id);
         let startDateID = document.getElementById("startDate");
         let endDateID = document.getElementById("endDate");
@@ -926,35 +926,79 @@ function getCurrentTime() {
     const minutes = String(now.getMinutes()).padStart(2, '0');
     return `${hours}:${minutes}`;
 }
-function previewFile() {
-    const fileInput = document.getElementById('img');
+function previewFile(type, input) {
+    console.log(type);
+    console.log(input);
     const imgPreview = document.getElementById('imgPreview');
     const videoPreview = document.getElementById('videoPreview');
     const previewContainer = document.getElementById('previewContainer');
-    const file = fileInput.files[0];
-
-    if (file) {
-        const fileType = file.type;
-        const reader = new FileReader();
-
-        reader.onload = function (e) {
-            if (fileType.startsWith('image/')) {
-                imgPreview.src = e.target.result;
-                imgPreview.style.display = 'block';
-                videoPreview.style.display = 'none';
-            } else if (fileType.startsWith('video/')) {
-                videoPreview.src = e.target.result;
-                videoPreview.style.display = 'block';
-                imgPreview.style.display = 'none';
-            }
-            previewContainer.style.display = 'block';
-        };
-
-        reader.readAsDataURL(file);
+    if (type == null) {
+        return;
+    }
+    else if (type == 'single') {
+        debugger
+        const file = input.files[0];
+        if (file) {
+            const fileType = file.type;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                debugger
+                if (fileType.startsWith('image/')) {
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.display = 'block';
+                    videoPreview.style.display = 'none';
+                } else if (fileType.startsWith('video/')) {
+                    videoPreview.src = e.target.result;
+                    videoPreview.style.display = 'block';
+                    imgPreview.style.display = 'none';
+                }
+                previewContainer.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewContainer.style.display = 'none';
+        }
+    } else if (type == 'multiple') {
+        const files = Array.from(input.files);
+        if (files.length > 0) {
+            previewContainer.innerHTML = '';
+            files.forEach(file => {
+                debugger
+                const fileType = file.type;
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const previewItem = document.createElement('div');
+                    previewItem.classList.add('preview-item', 'mb-2', 'me-2');
+                    if (fileType.startsWith('image/')) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = 'Bild-Vorschau';
+                        img.style.maxWidth = '100%';
+                        img.style.maxHeight = '200px';
+                        previewItem.appendChild(img);
+                    } else if (fileType.startsWith('video/')) {
+                        const video = document.createElement('video');
+                        video.src = e.target.result;
+                        video.controls = true;
+                        video.muted = true;
+                        video.style.maxWidth = '100%';
+                        video.style.maxHeight = '200px';
+                        previewItem.appendChild(video);
+                    }
+                    previewContainer.appendChild(previewItem);
+                };
+                reader.readAsDataURL(file);
+            });
+        } else {
+            previewContainer.style.display = 'none';
+        }
     } else {
         previewContainer.style.display = 'none';
     }
 }
+
+
+
 function detectLinkType(link) {
     if (checkYoutubeUrl(link)) return "yt";
     if (checkTikTokUrl(link)) return "tiktok";
@@ -963,36 +1007,10 @@ function detectLinkType(link) {
 }
 
 async function meow(event, selectedValue, link, start, end) {
-
+    debugger
     event.preventDefault(); // Verhindert das Standardverhalten des Formulars
     let { datai, selectedTime, aktiv, titel, description } = prepareFormData(event);
-    console.log("Selected Value:", selectedValue);
-    console.log("Link:", link);
-    console.log("Start:", start);
-    console.log("End:", end);
-   
-    var start = Number(start);
-    var end = Number(end);
-    if (isNaN(start) || isNaN(end)) {
-        alert("Start- und Endzeit müssen Zahlen sein.");
-        return;
-    }
 
-    if (start > end) {
-        alert("Die Startzeit darf nicht größer als die Endzeit sein.");
-        return;
-    }
-
-    if (!datai || titel === "" || selectedTime === null || aktiv === null) {
-        alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
-        return;
-    }
-    // else if(datai.startsWith("yt")){
-    //      if (!datai || titel === "" || selectedTime === null || aktiv === null) {
-    //         alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
-    //         return;
-    //     }
-    // }
     let validLink = "";
     let prefix = "";
     if (selectedValue === "img") {
@@ -1004,6 +1022,26 @@ async function meow(event, selectedValue, link, start, end) {
         }
         return; // Für Bilder ist es anders, daher return
     } else if (selectedValue === "yt") {
+        console.log("Selected Value:", selectedValue);
+        console.log("Link:", link);
+        console.log("Start:", start);
+        console.log("End:", end);
+        var start = Number(start);
+        var end = Number(end);
+        if (isNaN(start) || isNaN(end)) {
+            alert("Start- und Endzeit müssen Zahlen sein.");
+            return;
+        }
+
+        if (start > end) {
+            alert("Die Startzeit darf nicht größer als die Endzeit sein.");
+            return;
+        }
+
+        if (!datai || titel === "" || selectedTime === null || aktiv === null) {
+            alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
+            return;
+        }
         console.log("Externe Video-Quelle ausgewählt");
         const linkType = detectLinkType(link);
         if (linkType) {
@@ -1089,7 +1127,7 @@ function checkTikTokUrl(url) {
 
 function prepareFormData(event) {
     event.preventDefault();
-   
+    debugger
     let datai = null;
     const form = event.target.form;
     const formData = new FormData(form);
@@ -1109,6 +1147,7 @@ function prepareFormData(event) {
 }
 
 async function sendDatei(event) {
+    debugger
     let { formData, datai, selectedTime, aktiv, titel, description } = prepareFormData(event); // Formulardaten vorbereiten
     const form = event.target.form;
     console.log("Selected Time:", selectedTime);
@@ -1166,7 +1205,7 @@ async function sendPicture(datai) {
     }
 }
 async function insertDatabase(cardObj) {
-     // Erstellen eines JSON-Objekts
+    // Erstellen eines JSON-Objekts
     const jsonData = {
         titel: cardObj.titel,
         beschreibung: cardObj.beschreibung,
@@ -1358,9 +1397,9 @@ function wähleErstesInfoseite() {
     }
 }
 
-// window.addEventListener("DOMContentLoaded", function () {
-//     const btnAddInfoSeite = document.getElementById("btn_addInfoSeite");
-//     if (btnAddInfoSeite) {
-//         btnAddInfoSeite.click();
-//     }
-// });
+window.addEventListener("DOMContentLoaded", function () {
+    const btnAddInfoSeite = document.getElementById("btn_addInfoSeite");
+    if (btnAddInfoSeite) {
+        btnAddInfoSeite.click();
+    }
+});
