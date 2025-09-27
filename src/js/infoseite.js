@@ -1057,7 +1057,10 @@ async function meow(event, selectedValue, link, start, end) {
             alert("Ungültiger Link. Unterstützt: YouTube, TikTok, Instagram, ZDF, Tagesschau.");
             return;
         }
-    } else {
+    }else if(selectedValue === "temp1") {
+        alert("diese Option ist noch in Arbeit.");
+        return;
+    }else {
         alert("Unbekannter Typ ausgewählt.");
         return;
     }
