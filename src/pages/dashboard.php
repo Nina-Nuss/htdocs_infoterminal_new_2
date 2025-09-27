@@ -97,9 +97,9 @@ header('Access-Control-Allow-Origin: *');
                                             <div id="dateTimeInfoPanel ">
                                                 <div class="d-flex align-items-center mb-3">
                                                     <div class="d-flex  align-items-center">
-                                                        <i class="fas fa-calendar-alt me-1"></i>
+                                                        <i class="fas fa-calendar-alt me-2"></i>
                                                         <span>Datum:</span>
-                                                        <div class="d-flex align-items-center ms-4">
+                                                        <div class="d-flex align-items-center" style="margin-left: 20px;"> 
                                                             <input type="date" class="form-control form-control-sm" style="width: 9rem; "
                                                                 id="startDate" name="startDate">
                                                         </div>
@@ -136,7 +136,7 @@ header('Access-Control-Allow-Origin: *');
                                                         <i class="fa fa-clock me-2"></i>
                                                         <span style="margin-right: 0.5rem;">Uhrzeit:</span>
                                                         <input type="time"
-                                                            class="form-control form-control-sm flex-fill mx-2" style="width: 6rem;"
+                                                            class="form-control form-control-sm flex-fill mx-2" style="width: 6rem;" style="margin-left: 30px;"
                                                             id="startTimeRange" name="startTimeRange">
                                                         <label for="endTimeRange"
                                                             class="form-label mb-0 me-2 text-secondary">Uhr</label>
