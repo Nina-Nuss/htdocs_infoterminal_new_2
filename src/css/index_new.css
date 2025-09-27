@@ -12,11 +12,10 @@ body {
 
 
 .card-img-small {
-    max-height: 15vh !important;
+    height: 140px;
     /* oder z.B. 20vh, je nach gewünschter Größe */
     width: auto;
     width: 100%;
-    height: 100%;
     object-fit: cover;
     display: block;
     overflow: hidden;
