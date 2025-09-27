@@ -213,7 +213,6 @@ class Infoseite {
     }
 
     static deaktiviereAllElements(aktiv) {
-
         const konfigContainer = document.getElementById("konfigContainer");
         const bildschirmVerwaltung = document.getElementById("bildschirmVerwaltung");
         const deleteInfoSeite = document.getElementById("btn_deleteInfoSeite")
@@ -926,9 +925,8 @@ function getCurrentTime() {
     const minutes = String(now.getMinutes()).padStart(2, '0');
     return `${hours}:${minutes}`;
 }
-function previewFile(type, input) {
-    console.log(type);
-    console.log(input);
+function previewFile(type, input, event, container) {
+    debugger
     const imgPreview = document.getElementById('imgPreview');
     const videoPreview = document.getElementById('videoPreview');
     const previewContainer = document.getElementById('previewContainer');
@@ -959,38 +957,18 @@ function previewFile(type, input) {
             previewContainer.style.display = 'none';
         }
     } else if (type == 'multiple') {
-        const files = Array.from(input.files);
-        if (files.length > 0) {
-            previewContainer.innerHTML = '';
-            files.forEach(file => {
-                debugger
-                const fileType = file.type;
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const previewItem = document.createElement('div');
-                    previewItem.classList.add('preview-item', 'mb-2', 'me-2');
-                    if (fileType.startsWith('image/')) {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.alt = 'Bild-Vorschau';
-                        img.style.maxWidth = '100%';
-                        img.style.maxHeight = '200px';
-                        previewItem.appendChild(img);
-                    } else if (fileType.startsWith('video/')) {
-                        const video = document.createElement('video');
-                        video.src = e.target.result;
-                        video.controls = true;
-                        video.muted = true;
-                        video.style.maxWidth = '100%';
-                        video.style.maxHeight = '200px';
-                        previewItem.appendChild(video);
-                    }
-                    previewContainer.appendChild(previewItem);
-                };
-                reader.readAsDataURL(file);
-            });
-        } else {
-            previewContainer.style.display = 'none';
+        for (let i = 0; i < event.target.files.length; i++) {
+            const cont = document.getElementById(container);
+            const count = cont.querySelectorAll('img').length;
+            if (count >= 5) {
+                alert("Maximal 5 Bilder erlaubt.");
+                return;
+            }
+            var image = document.createElement('img');
+            image.src = URL.createObjectURL(event.target.files[i]);
+            image.id = "output";
+            image.width = "50";
+            document.querySelector(`#${container}`).appendChild(image);
         }
     } else {
         previewContainer.style.display = 'none';
@@ -1007,10 +985,9 @@ function detectLinkType(link) {
 }
 
 async function meow(event, selectedValue, link, start, end) {
-    debugger
     event.preventDefault(); // Verhindert das Standardverhalten des Formulars
-    let { datai, selectedTime, aktiv, titel, description } = prepareFormData(event);
-
+    debugger
+    // Improved file upload handling for multiple images
     let validLink = "";
     let prefix = "";
     if (selectedValue === "img") {
@@ -1022,6 +999,7 @@ async function meow(event, selectedValue, link, start, end) {
         }
         return; // Für Bilder ist es anders, daher return
     } else if (selectedValue === "yt") {
+        let { datai, selectedTime, aktiv, titel, description } = prepareFormData(event);
         console.log("Selected Value:", selectedValue);
         console.log("Link:", link);
         console.log("Start:", start);
@@ -1032,12 +1010,10 @@ async function meow(event, selectedValue, link, start, end) {
             alert("Start- und Endzeit müssen Zahlen sein.");
             return;
         }
-
         if (start > end) {
             alert("Die Startzeit darf nicht größer als die Endzeit sein.");
             return;
         }
-
         if (!datai || titel === "" || selectedTime === null || aktiv === null) {
             alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
             return;
@@ -1057,10 +1033,15 @@ async function meow(event, selectedValue, link, start, end) {
             alert("Ungültiger Link. Unterstützt: YouTube, TikTok, Instagram, ZDF, Tagesschau.");
             return;
         }
-    }else if(selectedValue === "temp1") {
+    } else if (selectedValue === "temp1") {
+        alert(event.target.value);
         alert("diese Option ist noch in Arbeit.");
         return;
-    }else {
+    } else if (selectedValue === "tempTest") {
+        const result = await sendDatei(event, 'multiple');
+        alert("diese Option ist noch in Arbeit.");
+    } else {
+        const result = await sendDatei(event);
         alert("Unbekannter Typ ausgewählt.");
         return;
     }
@@ -1076,11 +1057,8 @@ async function meow(event, selectedValue, link, start, end) {
         alert("Fehler beim Erstellen der Infoseite. Bitte versuchen Sie es erneut.");
     }
 }
-
-
-
 async function createInfoseiteObj(serverImageName, selectedTime, aktiv, titel, description) {
-    ;
+
     try {
         // Lokalen Dateinamen in den Infoseite einfügen
         const obj1 = new Infoseite(
@@ -1129,18 +1107,32 @@ function checkTikTokUrl(url) {
 }
 
 function prepareFormData(event) {
-    event.preventDefault();
+    event.preventDefault(); // Verhindert das Standardverhalten des Formulars
     debugger
+    let formData = null;
     let datai = null;
     const form = event.target.form;
-    const formData = new FormData(form);
-    console.log(formData); // Alle Formulardaten anzeigen
-    console.log(formData.get('img')); // Bilddatei anzeigen
+    formData = new FormData(form);
+    const files = document.querySelector('input[type="file"]').files;
+    if (!files) {
+        alert("Kein Datei-Input für Bilder gefunden.");
+        return;
+    }
+    if (!files || files.length === 0) {
+        alert("Bitte wählen Sie mindestens ein Bild aus.");
+        return;
+    }
+    alert(`Anzahl ausgewählter Bilder: ${files.length}`);
+    for (let i = 0; i < files.length; i++) {
+        formData.append('files[]', files[i]);
+    }
     console.log(formData.get('youtubeUrl'));
     if (formData.get('img')) {
         datai = formData.get('img');
     } else if (formData.get('youtubeUrl')) {
         datai = formData.get('youtubeUrl');
+    }else if(files.length > 0){
+        datai = formData.getAll('files[]');
     }
     const selectedTime = String(formData.get('selectedTime')); // Wert als Zahl
     const aktiv = formData.get('aktiv'); // Wert der ausgewählten Option
@@ -1150,8 +1142,9 @@ function prepareFormData(event) {
 }
 
 async function sendDatei(event) {
-    debugger
+
     let { formData, datai, selectedTime, aktiv, titel, description } = prepareFormData(event); // Formulardaten vorbereiten
+    debugger
     const form = event.target.form;
     console.log("Selected Time:", selectedTime);
     if (!datai || selectedTime === "" || aktiv === null || titel === "") {
@@ -1184,7 +1177,6 @@ async function sendDatei(event) {
 
 
 async function sendPicture(datai) {
-    ;
     try {
         const response = await fetch("../php/movePic.php", {
             method: 'POST',
@@ -1192,7 +1184,6 @@ async function sendPicture(datai) {
         });
         let imageName = await response.text();
         console.log("Bildname vom Server:", imageName);
-
         // Falls der Server einen Pfad zurückgibt, extrahiere nur den Dateinamen
         if (imageName.includes('../../uploads/img/')) {
             imageName = imageName.split('/').pop(); // Extrahiere nur den Dateinamen

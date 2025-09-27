@@ -102,7 +102,6 @@ class Template {
             embedSrc = `https://www.tiktok.com/embed/v2/${videoId}`;
             sourceText = "Quelle: " + element;
         } else {
-
             if (element.includes("v=")) {
                 videoId = element.split("v=")[1];
                 console.log(videoId);
@@ -113,7 +112,6 @@ class Template {
                 if (videoId.includes('&end=')) {
                     end = videoId.split('&end=')[1].split('&')[0];
                 }
-
             } else if (element.includes("shorts/")) {
                 videoId = element.split("shorts/")[1].split('&')[0];
             }
@@ -147,7 +145,6 @@ class Template {
         document.body.appendChild(video); // Add the new video to the body
     }
     static createVorlageA(id) {
-
         let listInhalt = [];
         let container = document.createElement('div');
         container.className = "d-flex justify-content-between align-items-center";
@@ -173,11 +170,9 @@ class Template {
         document.body.appendChild(container); // zum Body hinzufügen
     }
     static createVorlageB(id) {
-
         let listInhalt = [];
         let container = document.createElement('div');
         container.className = "d-flex justify-content-center align-items-center";
-
         for (let index = 0; index < Template.list.length; index++) {
             if (Template.list[index].id != id) continue;
             listInhalt.push(Template.list[index]);

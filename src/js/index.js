@@ -9,7 +9,6 @@ window.onload = async function () {
     console.log("window.onload von index.js läuft!");
     const ipAdress = await getSystemPath();
     console.log("IP-Adresse:", ipAdress);
-    
     if (document.getElementById("dokumente")) {
         try {
 
@@ -54,7 +53,6 @@ function deakNavbarbtns() {
         buttonsInContainer.forEach(button => {
             button.addEventListener("click", function () {
                 console.log(`Button mit ID ${button.id} wurde geklickt`);
-
                 // Alle Buttons aktivieren
                 buttonsInContainer.forEach(btn => {
                     btn.disabled = false;
