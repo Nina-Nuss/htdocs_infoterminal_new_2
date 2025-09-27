@@ -49,19 +49,16 @@
                             <label for="img" class="form-label">
                                 <i class="fas fa-image me-2"></i> Bild auswählen <span style="color:red">*</span>
                             </label>
-                            <input type="file" class="form-control" id="img" name="img" accept="image/*,video/*"
-                                onchange="previewFile('single', this)">
                         </div>
                     </div>
-                    <!-- <div id="tempSnackbar" class="hidden">
-                        <div class="form-group> mb-3">
+                    <div id="tempSnackbar" class="hidden">
+                        <div class="form-group mb-3">
                             <label for="img" class="form-label">
                                 <i class="fas fa-image me-2"></i> Bild auswählen <span style="color:red">*</span>
                             </label>
-                            <input type="file" class="form-control" id="img" name="img" multiple
-                                accept="image/*,video/*" onchange="previewFile('multiple', this)">
+
                         </div>
-                    </div> -->
+                    </div>
                     <div id="previewContainer" style="display:none; margin-top:10px;">
                         <img id="imgPreview" src="#" alt="Bild-Vorschau" style="max-width:100%; max-height:200px;">
                         <video id="videoPreview" controls muted style="max-width:100%; max-height:200px;">
@@ -69,7 +66,11 @@
                             Ihr Browser unterstützt das Video-Element nicht.
                         </video>
                     </div>
-                    
+                    <div id="inputContainer">
+
+
+                    </div>
+
                     <hr>
 
                     <div class="mt-3 d-flex justify-content-center gap-3">
@@ -137,6 +138,7 @@
     var Youtube = document.getElementById('YoutubeContainer');
     var datai = document.getElementById('dataiContainer');
     var templateTest1 = document.getElementById('tempSnackbar');
+    var inputContainer = document.getElementById("inputContainer");
     var listSelect = [Youtube, datai, templateTest1];
     selectItem.addEventListener('change', function () {
         var selectedValue = this.value;
@@ -150,16 +152,21 @@
             if (ytInput) {
                 ytInput.disabled = true; // optional
             }
+            inputContainer.innerHTML += `  <input type="file" class="form-control" id="img" name="img" accept="image/*,video/*"
+                                onchange="previewFile('single', this)">`;
         } else if (selectedValue === 'temp1') {
             loadSelection(templateTest1);
             if (ytInput) {
                 ytInput.disabled = true;
             }
+            inputContainer.innerHTML += `<input type="file" class="form-control" id="img" name="img" multiple
+                                accept="image/*,video/*" onchange="previewFile('multiple', this)">`;
         }
     });
 
     function loadSelection(option) {
         Template.resetAll();
+        inputContainer.innerHTML = ""; // Clear previous content
         listSelect.forEach(function (element) {
             if (element !== option) element.classList.add('hidden');
             else element.classList.remove('hidden');
