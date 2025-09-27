@@ -12,7 +12,7 @@
         <div id="dokumente" class="w-100">
             <h2 id="titelUmgebung" class="text-center"></h2>
             <div id="umgebungsContainer" class="w-100">
-                <div id="cardContainer" class="cardContainer" style=" margin-left: 6px;"></div>
+                <div id="cardContainer" class="cardContainer"></div>
             </div>
         </div>
     </div>

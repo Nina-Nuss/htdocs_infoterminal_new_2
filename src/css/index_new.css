@@ -9,10 +9,7 @@ body {
     width: 100%;
 }
 
-.cardContainer {
-    height: 700px;
 
-}
 
 .card-img-small {
     max-height: 15vh !important;
@@ -232,7 +229,12 @@ label {
 
 #dokumente {
     overflow: scroll;
-    height: 98%;
+    scrollbar-width: thin;
+    scrollbar-color: #006b99 transparent;
+    padding: 5px;
+
+
+    height: 100%;
     width: 100%;
 }
 
@@ -420,14 +422,13 @@ hr {
     width: 2.5rem !important;
     height: 1.9rem !important;
     border-radius: 0.25rem !important;
+    border : 2px solid !important;
     inline-size: auto;
     padding: 7px !important;
     display: flex;
     justify-content: center;
     align-items: top;
 }
-
-
 .infoseiteSelect {
     background-color: #006c99;
     border: 2px solid #006c99;
@@ -453,4 +454,15 @@ hr {
 /* Dauer wird per CSS-Variable --dur gesetzt */
 .progress-bar.run {
     animation: fill var(--dur, 0ms) linear forwards;
+}
+#selectorInfoterminalForCards {
+    margin-left: 5px;
+    width: 280px;
+    height: 2.5rem;
+    border-radius: 0.25rem;
+    background-color: white;
+    color: black;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
 }
