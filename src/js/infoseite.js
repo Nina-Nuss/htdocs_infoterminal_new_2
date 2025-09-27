@@ -97,7 +97,7 @@ class Infoseite {
         let ext = [];
         let videoExts = [];
         let imageExts = [];
-        debugger
+
         // Prüfe, ob es eine unterstützte URL ist (YouTube, TikTok, Instagram usw.)
         let embedUrl = Infoseite.getEmbedUrl(imagePath);
         if (embedUrl) {
@@ -112,7 +112,7 @@ class Infoseite {
 
 
         if (imagePath.startsWith('temp')) {
-            debugger 
+       
             console.log(imagePath);
 
             return placeHolder = `<iframe class="card-img-small" src="../output/outTest.php?template=${imagePath}"  alt="Bild" onerror="this.onerror=null; this.src=''"></iframe>`;
@@ -963,7 +963,7 @@ function detectLinkType(link) {
 }
 
 async function meow(event, selectedValue, link, start, end) {
-    debugger
+
     event.preventDefault(); // Verhindert das Standardverhalten des Formulars
     let { datai, selectedTime, aktiv, titel, description } = prepareFormData(event);
     console.log("Selected Value:", selectedValue);
@@ -1089,7 +1089,7 @@ function checkTikTokUrl(url) {
 
 function prepareFormData(event) {
     event.preventDefault();
-    debugger
+   
     let datai = null;
     const form = event.target.form;
     const formData = new FormData(form);
@@ -1345,11 +1345,14 @@ function handleCardMouseOut(id) {
 
 function wähleErstesInfoseite() {
     if (Infoseite.list.length > 0) {
+        var titelUmgebung = document.getElementById("titelUmgebung");
         const erstesObjekt = Infoseite.list[0];
         try {
             document.getElementById(`cardObjekt${erstesObjekt.id}`).click(); // Simuliere einen Klick auf das erste Objekt
+            titelUmgebung.innerHTML = "";
         } catch (error) {
             console.error("Erstes Objekt konnte nicht ausgewählt werden.", error);
+            titelUmgebung.innerHTML = "<div style='font-weight: bold; font-size: 0.8rem;'>Keine Infoseiten vorhanden</div>";
         }
 
     }

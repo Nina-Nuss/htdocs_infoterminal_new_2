@@ -130,11 +130,12 @@
 
     selectItem.addEventListener('change', function () {
         var selectedValue = this.value;
-        debugger
+    
         var Youtube = document.getElementById('YoutubeContainer');
         var datai = document.getElementById('dataiContainer');
         var listSelect = [Youtube, datai];
         if (selectedValue === 'yt') {
+            Template.resetAll();
             Template.resetAll();
             listSelect.forEach(function (element) {
                 if (element !== Youtube) element.classList.add('hidden');

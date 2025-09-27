@@ -97,7 +97,7 @@ header('Access-Control-Allow-Origin: *');
                                             <div id="dateTimeInfoPanel ">
                                                 <div class="d-flex align-items-center mb-3">
                                                     <div class="d-flex  align-items-center">
-                                                        <i class="fas fa-calendar-alt me-2"></i>
+                                                        <i class="fas fa-calendar-alt me-1"></i>
                                                         <span>Datum:</span>
                                                         <div class="d-flex align-items-center ms-4">
                                                             <input type="date" class="form-control form-control-sm" style="width: 9rem; "
@@ -151,7 +151,7 @@ header('Access-Control-Allow-Origin: *');
                                                         <label for="endTimeRange"
                                                             class="form-label mb-0 text-secondary me-3 mx-2"> Uhr</label>
                                                         <button id="delTimeRange"
-                                                            class="btn btn-outline-danger trashBtn me-auto ms-2 btn-sm "
+                                                            class="btn btn-outline-danger trashBtn me-auto ms-3 btn-sm "
                                                             onclick="Infoseite.removeTimeRange(Infoseite.selectedID)">
                                                             <i class="fas fa-trash-alt"></i>
                                                         </button>
@@ -183,7 +183,7 @@ header('Access-Control-Allow-Origin: *');
                                                         </div> -->
                                             </div>
                                             <div class="form-group mt-3">
-                                                <div class="d-flex align-items-center" >
+                                                <div class="d-flex align-items-center">
                                                     <label for="openTerminalBtn" class="form-label ">
                                                         <i class="fas fa-desktop mb-0 me-2"></i>Anzeige:
                                                     </label>

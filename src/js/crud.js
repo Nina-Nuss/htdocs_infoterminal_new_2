@@ -96,7 +96,7 @@ class Crud {
     }
 
     static async add_user() {
-        debugger
+     
         var username = document.getElementById("username");
         var password = document.getElementById("password");
         var is_admin = document.getElementById("isAdmin");

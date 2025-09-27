@@ -4,7 +4,7 @@ let pushDelete = false
 let json;
 let selectedCard = "";
 var anzeigebereichV = document.getElementById("anzeigebereichV");
-debugger
+
 window.onload = async function () {
     console.log("window.onload von index.js läuft!");
     const ipAdress = await getSystemPath();

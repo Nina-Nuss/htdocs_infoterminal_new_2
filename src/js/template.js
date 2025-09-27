@@ -145,7 +145,7 @@ class Template {
         document.body.appendChild(video); // Add the new video to the body
     }
     static createVorlageA(id) {
-        debugger
+      
         let listInhalt = [];
         let container = document.createElement('div');
         container.className = "d-flex justify-content-between align-items-center";
@@ -171,7 +171,7 @@ class Template {
         document.body.appendChild(container); // zum Body hinzufügen
     }
     static createVorlageB(id) {
-        debugger
+      
         let listInhalt = [];
         let container = document.createElement('div');
         container.className = "d-flex justify-content-center align-items-center";
@@ -190,7 +190,7 @@ class Template {
         document.body.appendChild(container);
     }
     static async getIdContent(id) {
-        debugger
+      
         console.log(id);
         let inhalt = await fetch("../database/selectTemplates.php?schema_id=" + id);
         console.log(inhalt);
