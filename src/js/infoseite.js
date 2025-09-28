@@ -1040,6 +1040,7 @@ async function meow(event, selectedValue, link, start, end) {
     console.log("Prefixed Link:", prefixedLink);
     try {
         await createInfoseiteObj(prefixedLink, selectedTime, aktiv, titel, description);
+        
         Template.resetForm("infoSeiteForm");
         console.log("Infoseite wurde erfolgreich erstellt.");
     } catch (error) {
@@ -1074,7 +1075,6 @@ async function createInfoseiteObj(serverImageName, selectedTime, aktiv, titel, d
         console.error("Fehler beim erstellen des Infoseite:", error);
     }
 }
-
 function checkYoutubeUrl(url) {
     const harmfulChars = /[<>"';]/;
     if (harmfulChars.test(url)) {
