@@ -706,7 +706,6 @@ class Infoseite {
         }
     }
     static DateTimeHandler(cardObj) {
-        debugger
         console.log("DateTimeHandler aufgerufen für CardObjektID:", cardObj.id);
         let startDateID = document.getElementById("startDate");
         let endDateID = document.getElementById("endDate");
@@ -860,7 +859,6 @@ class Infoseite {
             endTimeRange.value = '';
         }
     }
-
     static deleteDateTimeRange(objID) {
         console.log("deleteDateTimeRange aufgerufen für CardObjektID:", objID);
 
@@ -926,7 +924,6 @@ function getCurrentTime() {
     return `${hours}:${minutes}`;
 }
 function previewFile(type, input, event, container) {
-    debugger
     const imgPreview = document.getElementById('imgPreview');
     const videoPreview = document.getElementById('videoPreview');
     const previewContainer = document.getElementById('previewContainer');
@@ -934,13 +931,12 @@ function previewFile(type, input, event, container) {
         return;
     }
     else if (type == 'single') {
-        debugger
         const file = input.files[0];
         if (file) {
             const fileType = file.type;
             const reader = new FileReader();
             reader.onload = function (e) {
-                debugger
+
                 if (fileType.startsWith('image/')) {
                     imgPreview.src = e.target.result;
                     imgPreview.style.display = 'block';
@@ -974,19 +970,13 @@ function previewFile(type, input, event, container) {
         previewContainer.style.display = 'none';
     }
 }
-
-
-
 function detectLinkType(link) {
     if (checkYoutubeUrl(link)) return "yt";
     if (checkTikTokUrl(link)) return "tiktok";
-
     return null; // Unbekannter Typ
 }
-
 async function meow(event, selectedValue, link, start, end) {
     event.preventDefault(); // Verhindert das Standardverhalten des Formulars
-    debugger
     // Improved file upload handling for multiple images
     let validLink = "";
     let prefix = "";
@@ -999,7 +989,7 @@ async function meow(event, selectedValue, link, start, end) {
         }
         return; // Für Bilder ist es anders, daher return
     } else if (selectedValue === "yt") {
-        let { datai, selectedTime, aktiv, titel, description } = prepareFormData(event);
+        var { datai, selectedTime, aktiv, titel, description } = prepareFormData(event);
         console.log("Selected Value:", selectedValue);
         console.log("Link:", link);
         console.log("Start:", start);
@@ -1034,11 +1024,11 @@ async function meow(event, selectedValue, link, start, end) {
             return;
         }
     } else if (selectedValue === "temp1") {
-        alert(event.target.value);
+        const result = await sendDatei(event);
         alert("diese Option ist noch in Arbeit.");
         return;
     } else if (selectedValue === "tempTest") {
-        const result = await sendDatei(event, 'multiple');
+        const result = await sendDatei(event);
         alert("diese Option ist noch in Arbeit.");
     } else {
         const result = await sendDatei(event);
@@ -1058,9 +1048,8 @@ async function meow(event, selectedValue, link, start, end) {
     }
 }
 async function createInfoseiteObj(serverImageName, selectedTime, aktiv, titel, description) {
-
+    debugger
     try {
-        // Lokalen Dateinamen in den Infoseite einfügen
         const obj1 = new Infoseite(
             "",
             serverImageName, // Nur Bildname, kein Pfad
@@ -1105,7 +1094,6 @@ function checkTikTokUrl(url) {
     const pattern = /^(https?:\/\/)?(www\.)?(tiktok\.com\/(@[\w.-]+\/video\/|embed\/v2\/)|vm\.tiktok\.com\/)[A-Za-z0-9_-]{19}(\S*)?$/;
     return pattern.test(url);
 }
-
 function prepareFormData(event) {
     event.preventDefault(); // Verhindert das Standardverhalten des Formulars
     debugger
@@ -1113,26 +1101,26 @@ function prepareFormData(event) {
     let datai = null;
     const form = event.target.form;
     formData = new FormData(form);
-    const files = document.querySelector('input[type="file"]').files;
-    if (!files) {
-        alert("Kein Datei-Input für Bilder gefunden.");
-        return;
-    }
-    if (!files || files.length === 0) {
-        alert("Bitte wählen Sie mindestens ein Bild aus.");
-        return;
-    }
-    alert(`Anzahl ausgewählter Bilder: ${files.length}`);
-    for (let i = 0; i < files.length; i++) {
-        formData.append('files[]', files[i]);
-    }
+    var inputContainer = document.getElementById('inputContainer');
     console.log(formData.get('youtubeUrl'));
-    if (formData.get('img')) {
-        datai = formData.get('img');
+    if (formData.get('files[]')) {
+        datai = formData.get('files[]');
+        const files = Array.from(inputContainer.querySelectorAll('input[type="file"]')).flatMap(inp => Array.from(inp.files || []));
+        console.log(files);
+        if (!files) {
+            alert("Kein Datei-Input für Bilder gefunden.");
+            return;
+        }
+        if (!files || files.length === 0) {
+            alert("Bitte wählen Sie mindestens ein Bild aus.");
+            return;
+        }
+        alert(`Anzahl ausgewählter Bilder: ${files.length}`);
+        for (let i = 0; i < files.length; i++) {
+            formData.append('files[]', files[i]);
+        }
     } else if (formData.get('youtubeUrl')) {
         datai = formData.get('youtubeUrl');
-    }else if(files.length > 0){
-        datai = formData.getAll('files[]');
     }
     const selectedTime = String(formData.get('selectedTime')); // Wert als Zahl
     const aktiv = formData.get('aktiv'); // Wert der ausgewählten Option
@@ -1140,11 +1128,8 @@ function prepareFormData(event) {
     const description = formData.get('description');
     return { formData, datai, selectedTime, aktiv, titel, description };
 }
-
 async function sendDatei(event) {
-
-    let { formData, datai, selectedTime, aktiv, titel, description } = prepareFormData(event); // Formulardaten vorbereiten
-    debugger
+    let { formData, selectedTime, aktiv, titel, description } = prepareFormData(event); // Formulardaten vorbereiten
     const form = event.target.form;
     console.log("Selected Time:", selectedTime);
     if (!datai || selectedTime === "" || aktiv === null || titel === "") {

@@ -21,6 +21,7 @@
                             <option value="img">Bilder/Video</option>
                             <option value="yt">Youtube</option>
                             <option value="tempTest">Test 1</option>
+                            <option value="temp1">Test 2</option>
                         </select>
                     </div>
                     <div id="YoutubeContainer" class="hidden">
@@ -50,10 +51,12 @@
                         </label>
                     </div>
                     <div id="tempSnackbar" class="hidden form-group">
-                        <label for="img" class="form-label">
-                            <i class="fas fa-image me-2"></i> Bild auswählen <span style="color:red">*</span>
-                        </label>
+                        <label for="test1">Text1:</label>
+                        <input type="text" class="form-control" id="test1" name="test1" placeholder="Titel">
+                        <label for="test2">Text2:</label>
+                        <input type="text" class="form-control" id="test2" name="test2" placeholder="Inhalt">
                     </div>
+                    <div id="temp1" class="hidden form-group"></div>
                     <div id="tempTest" class="hidden form-group">
                         <label for="test1">Kopfzeile:</label>
                         <input type="text" class="form-control" id="test1" name="test1" placeholder="Titel">
@@ -138,10 +141,11 @@
                     Ihr Browser unterstützt das Video-Element nicht.
                 </video>
             </div>`
-    var inputContainerSingle = ` <input type="file" class="form-control" id="img" name="img" accept="image/*,video/*"
+    var inputContainerSingle = ` <input type="file" class="form-control" id="img" name="files[]" accept="image/*,video/*"
                                 onchange="previewFile('single', this, event, '${inputContainer.id}')">`
 
-    var inputContainerMultiple = ` <input multiple type="file" class="form-control" accept="image/*" name="image[]" id="file" onchange="previewFile('multiple', this, event, '${inputContainer.id}')">`
+    var inputContainerMultiple = ` <input multiple type="file" class="form-control" accept="image/*" name="files[]" id="file" onchange="previewFile('multiple', this, event, '${inputContainer.id}')">`
+
     var listSelect = [Youtube, datai, templateTest1, tempTest];
     selectItem.addEventListener('change', function () {
         var selectedValue = this.value;
@@ -151,17 +155,19 @@
                 ytInput.disabled = false;
             }
         } else if (selectedValue === 'img') {
-            debugger
             loadSelection(datai);
             datai.appendChild(inputContainer);
             inputContainer.innerHTML += inputContainerSingle;
             inputContainer.innerHTML += previewContainer;
         } else if (selectedValue === 'temp1') {
             loadSelection(templateTest1);
+            templateTest1.appendChild(inputContainer);
             inputContainer.innerHTML += inputContainerMultiple;
+
         } else if (selectedValue === 'tempTest') {
             loadSelection(tempTest);
-            imageContainer.innerHTML += inputContainerMultiple;
+            inputContainer.innerHTML += inputContainerSingle;
+            inputContainer.innerHTML += inputContainerSingle;
             imageContainer.appendChild(inputContainer);
         }
     });

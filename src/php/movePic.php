@@ -1,9 +1,7 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     $titel = $_POST["title"] ?? '';
     $beschreibung = $_POST["description"] ?? '';
-
     // Erlaubt nur Buchstaben, Zahlen und Unterstrich
     if (isset($titel)) {
         if (!preg_match('/^[A-Za-z0-9_]+$/', $titel)) {
@@ -18,50 +16,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+   
+// ...existing code...
+    $all_files = count($_FILES['files']['tmp_name']);
+    print_r($_FILES);
+ 
     // Überprüfen, ob eine Datei hochgeladen wurde
-    if (isset($_FILES['img']) && $_FILES['img']['error'] === UPLOAD_ERR_OK) {
+    if (isset($_FILES['files'])) {
         // Informationen über die hochgeladene Datei
-        $fileTmpPath = $_FILES['img']['tmp_name'];
-        $fileName = $_FILES['img']['name'];
-        $fileSize = $_FILES['img']['size'];
-        $fileType = $_FILES['img']['type'];
-        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        for ($i = 0; $i < $all_files; $i++) {
+            $file_name = $_FILES['files']['name'][$i];
+            $file_tmp  = $_FILES['files']['tmp_name'][$i];
+            $file_type = $_FILES['files']['type'][$i];
+            $file_size = $_FILES['files']['size'][$i];
 
-        // Erlaubte Dateierweiterungen
-        $allowedImageTypes = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'html', 'php'];
-        $allowedVideoTypes = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm'];
-        $allowedTypes = array_merge($allowedImageTypes, $allowedVideoTypes);
-        // Prüfen ob Dateierweiterung erlaubt ist
-        if (!in_array($fileExtension, $allowedTypes)) {
-            echo "Dateityp nicht erlaubt! Erlaubt: " . implode(', ', $allowedTypes);
-            exit;
-        }
+            // CORRECT: explode in Variable speichern, dann end()
+            $parts = explode('.', $file_name);
+            $fileExtension = strtolower(end($parts));
 
-        // Zielordner je nach Dateityp
-        if (in_array($fileExtension, $allowedImageTypes)) {
-            $uploadFolder =  '../../uploads/img/';
-            $randomName = uniqid('img_', true) . '.' . $fileExtension;
-        } elseif (in_array($fileExtension, $allowedVideoTypes)) {
-            $uploadFolder = '../../uploads/video/';
-            $randomName = uniqid('video_', true) . '.' . $fileExtension;
-        } else {
-            $uploadFolder = '../../uploads/video/';
-        }
+            $fileNames[] = $file_name;
 
-        if (!is_dir($uploadFolder)) {
-            mkdir($uploadFolder, 0777, true);
-        }
+            // Erlaubte Dateierweiterungen (KEINE .php/.html!)
+            $allowedImageTypes = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+            $allowedVideoTypes = ['mp4', 'avi', 'mov', 'wmv', 'flv', 'webm'];
+            $allowedTypes = array_merge($allowedImageTypes, $allowedVideoTypes);
 
-        // Neuer Pfad (inkl. Zielname)
-        $destPath = $uploadFolder . $randomName;
+            // Prüfen ob Dateierweiterung erlaubt ist
+            if (!in_array($fileExtension, $allowedTypes)) {
+                echo "Dateityp nicht erlaubt! Erlaubt: " . implode(', ', $allowedTypes);
+                exit;
+            }
 
-        // Datei verschieben
-        if (move_uploaded_file($fileTmpPath, $destPath)) {
-            echo $destPath; // Vollständiger Pfad zurückgeben
-        } else {
-            echo "Fehler beim Verschieben der Datei.";
+            // Zielordner je nach Dateityp
+            if (in_array($fileExtension, $allowedImageTypes)) {
+                $uploadFolder =  '../../uploads/img/';
+                $randomName = uniqid('img_', true) . '.' . $fileExtension;
+            } else {
+                $uploadFolder = '../../uploads/video/';
+                $randomName = uniqid('video_', true) . '.' . $fileExtension;
+            }
+
+            if (!is_dir($uploadFolder)) {
+                mkdir($uploadFolder, 0755, true);
+            }
+
+            // Neuer Pfad (inkl. Zielname)
+            $destPath = $uploadFolder . $randomName;
+
+            // WICHTIG: move_uploaded_file muss die tmp-Datei verwenden
+            if (is_uploaded_file($file_tmp) && move_uploaded_file($file_tmp, $destPath)) {
+                echo $destPath; // Vollständiger Pfad zurückgeben
+            } else {
+                echo "Fehler beim Verschieben der Datei.";
+            }
         }
     } else {
         echo "Fehler: Keine Datei hochgeladen oder Upload-Fehler.";
     }
+// ...existing code...
+    
 }
