@@ -5,7 +5,6 @@ $data = json_decode(file_get_contents('php://input'), true);
 // Überprüfen, ob die Daten korrekt abgerufen wurden
 if (isset($data['id'])) {
     $id = $data['id'];
-
     // SQL-Abfrage mit Prepared Statement
     $sql = "DELETE FROM user_login WHERE id = ?";
     $params = array($id);

@@ -1159,8 +1159,6 @@ async function sendDatei(event) {
     Template.resetForm("infoSeiteForm");
     return true;
 }
-
-
 async function sendPicture(datai) {
     try {
         const response = await fetch("../php/movePic.php", {

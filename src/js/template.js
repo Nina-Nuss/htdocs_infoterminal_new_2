@@ -8,7 +8,6 @@ class Template {
         this.inhalt = inhalt
         Template.list.push(this);
     }
-
     static selectTemplate(template) {
         var fileInput = document.getElementById('img');
         var inputGroupSelect01 = document.getElementById('inputGroupSelect01');
@@ -60,7 +59,6 @@ class Template {
                 el.alt = 'Bildvorschau';
             }
         });
-
         if (previewContainer) {
             previewContainer.style.display = 'none';
         }
@@ -164,7 +162,6 @@ class Template {
                     <h1>${element.typ}</h1>
             `;
             }
-
         }
         document.body.innerHTML = '';  // Body leeren
         document.body.appendChild(container); // zum Body hinzufügen
@@ -201,11 +198,29 @@ class Template {
             new Template(key[1], key[2], key[3], key[4]);
         }
     }
-
+    static async insertTemplateDatas(templateListen) {
+        
+        fetch('../database/insertTemplates.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                templates: templateListen
+            })
+        }).then(async result => {
+            var res = await result.text();
+            console.log("Templates erfolgreich eingefügt:", res);
+        }).catch(error => {
+            console.error("Fehler beim Einfügen der Templates:", error);
+        });
+    }
 }
-
 if (document.getElementById('inputGroupSelect01')) {
     Template.selectTemplate("img")
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM vollständig geladen und analysiert");
+    templateListen = [{ fk_schema_id: 139, templateName: 't1', typ: 'x', inhalt: '...' }, { fk_schema_id: 139, templateName: 't2', typ: 'y', inhalt: '...' }];
+    Template.insertTemplateDatas(templateListen);
+});
 

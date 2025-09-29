@@ -247,7 +247,6 @@ class Infoterminal {
             }
         });
     }
-
     static erstelleSelectorForCardObj() {
 
         var selectorInfoterminal = document.getElementById("selectorInfoterminal");
@@ -264,12 +263,8 @@ class Infoterminal {
                 console.log(event.target.value);
             });
         }
-
     }
-
-
 }
-
 window.addEventListener("load", async function () {
     Infoterminal.temp_remove = [];
     // Sende POST-Request zu php/sendingToPage.php
@@ -282,8 +277,6 @@ window.addEventListener("load", async function () {
     } catch (error) {
         console.error("Fehler beim Senden der Anfrage:", error);
     }
-
-
     var formID = document.getElementById('formID');
     if (formID) {
         formID.addEventListener('submit', function (event) {
@@ -314,11 +307,9 @@ window.addEventListener("load", async function () {
         });
     }
 });
-
 function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-
 function cutAndCreate(responseText) {
     var obj = responseText.split("],[");
     for (let i = 0; i < obj.length; i++) {
@@ -327,7 +318,6 @@ function cutAndCreate(responseText) {
         // new Infoterminal(inZeile[0], inZeile[1], inZeile[2])
     }
 }
-
 document.addEventListener('DOMContentLoaded', async () => {
     if (document.getElementById('infoCounterLimit') && document.getElementById('cardCounterLimit')) {
         const infoCounterLimit = document.getElementById('infoCounterLimit');
@@ -335,8 +325,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         return;
     }
-
-    // Config laden
     try {
         console.log("Config wird geladen");
 
@@ -360,28 +348,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Fehler beim Laden der Config:', err);
         return;
     }
-
 });
 function createList(cfg, select, defaultValue) {
-
     select.innerHTML = ""; // Vorher leeren
-
-    // "Bitte wählen" als erste Option
     const bitteWaehlen = document.createElement('option');
     bitteWaehlen.value = "bitte wählen";
     bitteWaehlen.textContent = defaultValue;
     select.appendChild(bitteWaehlen);
-
     cfg.forEach(i => {
-
         const opt = document.createElement('option');
         opt.value = i.value;
         opt.textContent = i.name;
         select.appendChild(opt);
-
     });
 }
-
 function saveList(select, name) {
     select.addEventListener('change', async () => {
         const newDefault = parseFloat(select.value);
@@ -390,7 +370,6 @@ function saveList(select, name) {
         if (!newDefault) {
             return;
         }
-
         try {
             const res = await fetch('../php/config.php', {
                 method: 'POST',
@@ -413,7 +392,6 @@ function saveList(select, name) {
 async function getData() {
     const result = await fetch('../../config/configTest.json')
     return await result.json();
-
 }
 async function setData() {
     try {

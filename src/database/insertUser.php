@@ -32,13 +32,10 @@ foreach ($userList as $row) {
     }
 }
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-
 // INSERT mit Prepared Statement
 $insertSql = "INSERT INTO user_login (username, password, is_admin) VALUES (?, ?, ?)";
 $insertParams = array($username, $hashedPassword, $role);
 $insertResult = sqlsrv_query($conn, $insertSql, $insertParams);
-
 if ($insertResult === false) {
     die(print_r(sqlsrv_errors(), true));
 } else {
