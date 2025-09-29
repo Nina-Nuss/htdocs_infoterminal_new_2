@@ -199,7 +199,6 @@ function showDateTime(type) {
         uhrzeitPanel.style.display = "none";
     }
 }
-
 function findObj(list, id) {
     
     if (typeof id === "string") {
@@ -220,8 +219,6 @@ function findObj(list, id) {
     console.warn(`Objekt mit ID ${id} nicht gefunden.`);
     return null;
 }
-
-
 
 function convertCardObjForDataBase(cardObjListe) {
     objListe = []

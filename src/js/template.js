@@ -199,7 +199,6 @@ class Template {
         }
     }
     static async insertTemplateDatas(templateListen) {
-        
         fetch('../database/insertTemplates.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -218,9 +217,15 @@ if (document.getElementById('inputGroupSelect01')) {
     Template.selectTemplate("img")
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     console.log("DOM vollständig geladen und analysiert");
-    templateListen = [{ fk_schema_id: 139, templateName: 't1', typ: 'x', inhalt: '...' }, { fk_schema_id: 139, templateName: 't2', typ: 'y', inhalt: '...' }];
+    var lastUploaded = await Infoseite.getLastUploadedInfoseite();
+    console.log(lastUploaded);
+    
+    // var cardObj = { imagePath: 'default.jpg', selectedTime: 10000, isAktiv: 1, startTime: null, endTime: null, startDateTime: null, endDateTime: null, timeAktiv: 0, dateAktiv: 0, titel: 'Beispiel Titel', beschreibung: 'Beispiel Beschreibung' };
+    // Infoseite.insertDatabase(cardObj)
+
+    templateListen = [{ fk_schema_id: parseInt(lastUploaded), templateName: 't1', typ: 'x', inhalt: '...' }, { fk_schema_id: parseInt(lastUploaded), templateName: 't2', typ: 'y', inhalt: '...' }];
     Template.insertTemplateDatas(templateListen);
 });
 

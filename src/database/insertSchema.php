@@ -3,12 +3,9 @@ ob_start();
 include("../php/checkJson.php");
 include '../../config/php/connection.php';
 ob_clean();
-
 $file = file_get_contents('php://input');
-
 // Abrufen der JSON-Daten aus der Anfrage
 $data = json_decode($file, true);
-
 echo json_encode($data);
 
 // Überprüfen, ob die Daten korrekt abgerufen wurden
@@ -26,9 +23,8 @@ if (is_array($data)) {
     $beschreibung = $data["beschreibung"];
     // SQL-Abfrage mit Prepared Statement
     $sql = "INSERT INTO schemas (imagePath, selectedTime, isAktiv, startTime, endTime, startDateTime, endDateTime, timeAktiv, dateAktiv, titel, beschreibung) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $params = array( $imagePath, $selectedTime, $aktiv, $startTime, $endTime, $startDate, $endDate, $timeAktiv, $dateAktiv, $titel, $beschreibung);
+    $params = array($imagePath, $selectedTime, $aktiv, $startTime, $endTime, $startDate, $endDate, $timeAktiv, $dateAktiv, $titel, $beschreibung);
     $stmt = sqlsrv_prepare($conn, $sql, $params);
-
     if ($stmt) {
         // Statement ausführen
         if (sqlsrv_execute($stmt)) {
@@ -46,6 +42,4 @@ if (is_array($data)) {
 } else {
     // echo "Fehler beim Abrufen der Daten";
 }
-
-
 sqlsrv_close($conn);

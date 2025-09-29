@@ -348,8 +348,13 @@ class Infoseite {
                 obj.changed = false;
             }
         }
-    }
 
+    }
+    static async getLastUploadedInfoseite() {
+        var result = await fetch("../database/selectLastRow.php");
+        var data = await result.text();
+        return data;
+    }
     static async deleteCardObjDataBase(cardObjId) {
         try {
             // Erst ALLE Beziehungen für dieses Schema löschen
@@ -1040,7 +1045,7 @@ async function meow(event, selectedValue, link, start, end) {
     console.log("Prefixed Link:", prefixedLink);
     try {
         await createInfoseiteObj(prefixedLink, selectedTime, aktiv, titel, description);
-        
+
         Template.resetForm("infoSeiteForm");
         console.log("Infoseite wurde erfolgreich erstellt.");
     } catch (error) {
@@ -1210,7 +1215,6 @@ async function insertDatabase(cardObj) {
     } else {
         const result = await response.json();
         console.log(result);
-
         return result; // Rückgabe der neuen ID
     }
 }
@@ -1339,6 +1343,7 @@ function erstelleFunktionForCardObj(objID) {
     }
     Beziehungen.update(Infoseite.selectedID);
 }
+
 
 function handleCardClick(id) {
     const cardObj = document.getElementById("cardObjekt" + id);

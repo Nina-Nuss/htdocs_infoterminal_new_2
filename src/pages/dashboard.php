@@ -23,9 +23,7 @@ header('Access-Control-Allow-Origin: *');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Infoterminal - Dashboard</title>
 </head>
-
 <body>
-    <!-- <?php include '../assets/darkmode.html'; ?>  -->
     <?php include '../layout/header.php'; ?>
     <?php include '../layout/modal/hinzufuegen.html'; ?>
     <?php include '../layout/modal/addInfoSeite.html'; ?>
