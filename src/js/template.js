@@ -79,7 +79,7 @@ class Template {
     }
     static singleContainer() {
         debugger
-        Template.containerCounter += 1;
+        Template.ccImage += 1;
         let fileInput = ` <div id="previewContainer${Template.ccImage}" style="display:none; margin:10px;">
                 <img id="imgPreview${Template.ccImage}" src="#" alt="Bild-Vorschau" style="max-width:100%; max-height:200px;">
                 <video id="videoPreview${Template.ccImage}" controls muted style="max-width:100%; max-height:200px;">
