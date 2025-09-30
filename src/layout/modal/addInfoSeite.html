@@ -20,8 +20,8 @@
                         <select class="form-select" id="inputGroupSelect01">
                             <option value="img">Bilder/Video</option>
                             <option value="yt">Youtube</option>
-                            <option value="temp1" selected>Test 1</option>
-                            <option value="tempTest">Test 2</option>
+                            <option value="tempTest">Test 1</option>
+                            <option value="tempSnackbar">Test 2</option>
                         </select>
                     </div>
                     <div id="YoutubeContainer" class="hidden">
@@ -58,12 +58,7 @@
                         <input type="text" class="form-control" style="width: 200px;" id="test2" name="test2"
                             placeholder="Inhalt">
                     </div>
-                    <div id="temp1" class="hidden form-group">
-                        <input type="text" class="form-control " style="width: 100px;" id="test3" name="test3"
-                            placeholder="Titel">
-                        <label for="test2">Text2:</label>
-                        <input type="text" class="form-control" id="test4" name="test4" placeholder="Inhalt">
-                    </div>
+                   
                     <div id="tempSnackbar" class="hidden form-group">
                         <label for="test1">Kopfzeile:</label>
                         <input type="text" class="form-control" id="test5" name="test5" placeholder="Titel">
@@ -132,12 +127,13 @@
     }
 </style>
 <script>
+    debugger
     var fileInput = document.getElementById('img');
     var selectItem = document.getElementById('inputGroupSelect01');
     var ytInput = document.getElementById('youtubeUrl');
     var Youtube = document.getElementById('YoutubeContainer');
     var datai = document.getElementById('dataiContainer');
-    var templateTest1 = document.getElementById('tempSnackbar');
+    var tempSnackbar = document.getElementById('tempSnackbar');
     var tempTest = document.getElementById('tempTest');
     var inputContainer = document.getElementById('inputContainer');
     var imageContainer = document.getElementById('imageContainer');
@@ -152,15 +148,15 @@
                                 onchange="previewFile('single', this, event, '${inputContainer.id}')">`
 
     var inputContainerMultiple = ` <input multiple type="file" class="form-control" accept="image/*" name="files[]" id="file" onchange="previewFile('multiple', this, event, '${inputContainer.id}')">`
-    var listSelect = [Youtube, datai, templateTest1, tempTest];
+    var listSelect = [Youtube, datai, tempSnackbar, tempTest];
     selectItem.addEventListener('change', function () {
         var selectedValue = this.value;
         if (selectedValue === 'yt') {
             loadSelection(Youtube);
         } else if (selectedValue === 'img') {
             loadSelection(datai);
-        } else if (selectedValue === 'temp1') {
-            loadSelection(templateTest1);
+        } else if (selectedValue === 'tempSnackbar') {
+            loadSelection(tempSnackbar);
         } else if (selectedValue === 'tempTest') {
             loadSelection(tempTest);
         }
@@ -203,7 +199,6 @@
             });
         }
     });
-
     function getList() {
         debugger;
         if (selectItem.value == "yt") {
@@ -218,11 +213,7 @@
             var test1 = document.getElementById('test1').value;
             var test2 = document.getElementById('test2').value;
             return [test1, test2];
-        } else if (selectItem.value == "temp1") {
-            var test3 = document.getElementById('test3');
-            var test4 = document.getElementById('test4');
-            return [test3, test4];
-        } else if (selectItem.value == "tempSnackbar") {
+        }else if (selectItem.value == "tempSnackbar") {
             var test5 = document.getElementById('test5');
             var test6 = document.getElementById('test6');
             return [test5, test6];
@@ -230,10 +221,8 @@
     }
     document.addEventListener('DOMContentLoaded', function () {
         const selectItem = document.getElementById('inputGroupSelect01');
-        const current = selectItem.selectedValue; // z.B. "img" oder "yt"
-        // programmatisch setzen
-        selectItem.value = 'yt'; // setzt auf Youtube
-        loadSelection(document.getElementById('YoutubeContainer'));
+        selectItem.value = 'tempTest'; // setzt auf Youtube
+        loadSelection(tempTest);
 
     });
 </script>
