@@ -980,11 +980,11 @@ function detectLinkType(link) {
     if (checkTikTokUrl(link)) return "tiktok";
     return null; // Unbekannter Typ
 }
-async function meow(event, selectedValue, link, start, end) {
+async function meow(event, selectedValue, liste) {
+    debugger
     event.preventDefault(); // Verhindert das Standardverhalten des Formulars
     // Improved file upload handling for multiple images
-    let validLink = "";
-    let prefix = "";
+    
     if (selectedValue === "img") {
         const result = await sendDatei(event);
         if (result) {
@@ -996,11 +996,14 @@ async function meow(event, selectedValue, link, start, end) {
     } else if (selectedValue === "yt") {
         var { datai, selectedTime, aktiv, titel, description } = prepareFormData(event);
         console.log("Selected Value:", selectedValue);
-        console.log("Link:", link);
-        console.log("Start:", start);
-        console.log("End:", end);
-        var start = Number(start);
-        var end = Number(end);
+        console.log("Link:", liste[0]);
+        console.log("Start:", liste[1]);
+        console.log("End:", liste[2]);
+        let validLink = "";
+        let prefix = "";
+        var link = liste[0];
+        var start = Number(liste[1]);
+        var end = Number(liste[2]);
         if (isNaN(start) || isNaN(end)) {
             alert("Start- und Endzeit müssen Zahlen sein.");
             return;
@@ -1029,11 +1032,13 @@ async function meow(event, selectedValue, link, start, end) {
             return;
         }
     } else if (selectedValue === "temp1") {
-        const result = await sendDatei(event);
+
         alert("diese Option ist noch in Arbeit.");
         return;
     } else if (selectedValue === "tempTest") {
-        const result = await sendDatei(event);
+        var test1 = liste[0];
+        var test2 = liste[1];
+
         alert("diese Option ist noch in Arbeit.");
     } else {
         const result = await sendDatei(event);
