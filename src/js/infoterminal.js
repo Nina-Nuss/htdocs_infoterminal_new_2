@@ -32,8 +32,6 @@ class Infoterminal {
         Infoterminal.allCardList.push(this.cardObjList);
         Infoterminal.list.push(this);
     }
-
-
     addCardObjs(cardObj) {
         this.cardObjList.push(cardObj);
     }
@@ -75,15 +73,12 @@ class Infoterminal {
         const selector = document.getElementById('infotherminalSelect');
         const selectorForCards = document.getElementById('selectorInfoterminalForCards');
         let delInfoRows = ""; // String für Tabellenzeilen
-
         let selectorOptions = "";
         let selectorOptionsForCards = '<option value="alle">-- wähle Infoterminal --</option>';
         this.list = [];
         this.temp_remove = [];
         console.log("Update wird aufgerufen von Infoterminal.js");
-
         const result = await readDatabase("selectInfotherminal");
-
         console.log("result: ", result);
         // Performance: Normale forEach statt await forEach
         result.forEach(listInfo => {
@@ -100,13 +95,10 @@ class Infoterminal {
             selectorOptions += `<option value="${listInfo[1]}">${listInfo[1]}</option>`
             selectorOptionsForCards += `<option value="${listInfo[0]}">${listInfo[1]}</option>`;
         });
-
         if (delInfo != null) {
             delInfo.innerHTML = "";
             delInfo.innerHTML = delInfoRows;
         }
-
-        // DOM nur einmal aktualisieren (bessere Performance)
         if (selector) {
             selector.innerHTML = selectorOptions;
             let testOption = document.createElement("option");
@@ -124,7 +116,6 @@ class Infoterminal {
             selectorForCards.innerHTML = selectorOptionsForCards;
         }
         console.log(this.list);
-
     }
     static removeFromListViaID(id, list) {
         var temp = [];
@@ -168,7 +159,6 @@ class Infoterminal {
         }
         console.log(this.temp_remove);
     };
-
     static async deletee(idDelete, databaseUrl) {
         console.log("deletee wurde aufgerufen");
         try {
@@ -178,10 +168,8 @@ class Infoterminal {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
             const responseText = await response.text();
             console.log("Delete Response:", responseText);
-
             // Versuche JSON zu parsen, falls möglich
             try {
                 const jsonResponse = JSON.parse(responseText);
@@ -196,7 +184,6 @@ class Infoterminal {
             console.error("Fehler beim Löschen:", error);
             return { error: error.message };
         }
-
     }
     static async removeFromListLogik() {
         // DIese Methode wird aufgerufen sobald wir auf Minus (-) klicken
@@ -248,7 +235,6 @@ class Infoterminal {
         });
     }
     static erstelleSelectorForCardObj() {
-
         var selectorInfoterminal = document.getElementById("selectorInfoterminal");
         if (selectorInfoterminal != null) {
             selectorInfoterminal.innerHTML = ""
@@ -327,19 +313,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     try {
         console.log("Config wird geladen");
-
         const res = await fetch('../../config/config.json');
         if (!res.ok) throw new Error(`Config nicht gefunden (Status ${res.status})`);
         const cfg = await res.json();
-
         // Dropdown befüllen
         // createList(cfg.intervals, select, cfg.default + " " + "minuten"); // falls du einen Default-Wert hast
         createList(cfg.maxCountForInfoPages, infoCounterLimit, cfg.defaultMaxCountForInfoPages + " " + "Info-Seiten");
         createList(cfg.maxCountForInfoTerminals, cardCounterLimit, cfg.defaultMaxCountForInfoTerminals + " " + "Terminals");
-
         console.log(cfg);
-
-
         // saveList(select, "default");
         saveList(infoCounterLimit, "defaultMaxCountForInfoPages");
         saveList(cardCounterLimit, "defaultMaxCountForInfoTerminals");
