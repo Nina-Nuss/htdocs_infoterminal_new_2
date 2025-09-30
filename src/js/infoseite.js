@@ -928,53 +928,7 @@ function getCurrentTime() {
     const minutes = String(now.getMinutes()).padStart(2, '0');
     return `${hours}:${minutes}`;
 }
-function previewFile(type, input, event, container) {
-    const imgPreview = document.getElementById('imgPreview');
-    const videoPreview = document.getElementById('videoPreview');
-    const previewContainer = document.getElementById('previewContainer');
-    if (type == null) {
-        return;
-    }
-    else if (type == 'single') {
-        const file = input.files[0];
-        if (file) {
-            const fileType = file.type;
-            const reader = new FileReader();
-            reader.onload = function (e) {
 
-                if (fileType.startsWith('image/')) {
-                    imgPreview.src = e.target.result;
-                    imgPreview.style.display = 'block';
-                    videoPreview.style.display = 'none';
-                } else if (fileType.startsWith('video/')) {
-                    videoPreview.src = e.target.result;
-                    videoPreview.style.display = 'block';
-                    imgPreview.style.display = 'none';
-                }
-                previewContainer.style.display = 'block';
-            };
-            reader.readAsDataURL(file);
-        } else {
-            previewContainer.style.display = 'none';
-        }
-    } else if (type == 'multiple') {
-        for (let i = 0; i < event.target.files.length; i++) {
-            const cont = document.getElementById(container);
-            const count = cont.querySelectorAll('img').length;
-            if (count >= 5) {
-                alert("Maximal 5 Bilder erlaubt.");
-                return;
-            }
-            var image = document.createElement('img');
-            image.src = URL.createObjectURL(event.target.files[i]);
-            image.id = "output";
-            image.width = "50";
-            document.querySelector(`#${container}`).appendChild(image);
-        }
-    } else {
-        previewContainer.style.display = 'none';
-    }
-}
 function detectLinkType(link) {
     if (checkYoutubeUrl(link)) return "yt";
     if (checkTikTokUrl(link)) return "tiktok";
@@ -1024,7 +978,6 @@ async function meow(event, selectedValue, liste) {
             } else {
                 validLink = link;
             }
-
         } else {
             alert("Ungültiger Link. Unterstützt: YouTube, TikTok, Instagram, ZDF, Tagesschau.");
             return;
@@ -1034,7 +987,6 @@ async function meow(event, selectedValue, liste) {
         var prefixedLink = prefix + validLink;
         console.log("Prefixed Link:", prefixedLink);
     } else if (selectedValue === "temp1") {
-
         alert("diese Option ist noch in Arbeit.");
         return;
     } else if (selectedValue === "tempTest") {
@@ -1048,7 +1000,6 @@ async function meow(event, selectedValue, liste) {
         return;
     }
     // Gemeinsame Logik für Links
-
     try {
         await createInfoseiteObj(prefixedLink, selectedTime, aktiv, titel, description);
         Template.resetForm("infoSeiteForm");

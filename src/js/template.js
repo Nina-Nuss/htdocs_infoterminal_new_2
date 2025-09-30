@@ -1,6 +1,8 @@
 class Template {
     static list = []
     static testAnzeige = []
+    static ccImage = 0;
+    static ccText = 0;
     constructor(id, templateName, typ, inhalt) {
         this.id = id;
         this.templateName = templateName
@@ -43,12 +45,13 @@ class Template {
     }
     static resetAll() {
         let previewContainer = document.getElementById('previewContainer');
+        debugger
         let idsTwo = ["imgPreview", "videoPreview"];
-        let idsOne = ["img", "youtubeUrl", "start", "end", "title", "description"];
+        let idsOne = ["img", "youtubeUrl", "start", "end", "title", "description" , "inputContainer", "imageContainer"];
         idsOne.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
-                element.value = ''; // Setze den Wert jedes Elements zurück
+                element.innerHTML = ''; // Setze den Wert jedes Elements zurück
             }
         });
         idsTwo.forEach(element => {
@@ -74,12 +77,33 @@ class Template {
             modalInstance.hide();
         }
     }
+    static singleContainer() {
+        debugger
+        Template.containerCounter += 1;
+        let fileInput = ` <div id="previewContainer${Template.ccImage}" style="display:none; margin:10px;">
+                <img id="imgPreview${Template.ccImage}" src="#" alt="Bild-Vorschau" style="max-width:100%; max-height:200px;">
+                <video id="videoPreview${Template.ccImage}" controls muted style="max-width:100%; max-height:200px;">
+                    <source src="#" type="video/mp4">
+                    Ihr Browser unterstützt das Video-Element nicht.
+                </video>
+            </div>`
+        let previewContainer = `<input type="file" class="form-control" id="img${Template.ccImage}" name="files[]" accept="image/*,video/*"
+                                onchange="Template.previewFile('single', this, event, document.getElementById('previewContainer${Template.ccImage}'), document.getElementById('imgPreview${Template.ccImage}'), document.getElementById('videoPreview${Template.ccImage}'));" >`
+        return { previewContainer, fileInput };
+    }
+    static textContainer(){
+        let textInput = `<div class="mb-3">
+            <label for="title" class="form-label">Titel</label>
+            <input type="text" id="text${Template.ccText}" class="form-control" name="title" placeholder="Titel eingeben">
+        </div>`;
+        return textInput;
+    }
+
     static createPic(element) {
         const img = document.createElement('img');
         img.src = "../../uploads/img/" + element;
         img.className = "fullscreen";
         img.alt = "Image";
-
         document.body.innerHTML = ''; // Clear the body content
         document.body.appendChild(img); // Add the new image to the body
     }
@@ -212,6 +236,49 @@ class Template {
             console.error("Fehler beim Einfügen der Templates:", error);
         });
     }
+    static previewFile(type, input, event, previewContainer, imagePreview, videoPreview) {
+        if (type == null) {
+            return;
+        }
+        else if (type == 'single') {
+            const file = input.files[0];
+            if (file) {
+                const fileType = file.type;
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    if (fileType.startsWith('image/')) {
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                        videoPreview.style.display = 'none';
+                    } else if (fileType.startsWith('video/')) {
+                        videoPreview.src = e.target.result;
+                        videoPreview.style.display = 'block';
+                        imagePreview.style.display = 'none';
+                    }
+                    previewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.style.display = 'none';
+            }
+        } else if (type == 'multiple') {
+            for (let i = 0; i < event.target.files.length; i++) {
+                const cont = document.getElementById(container);
+                const count = cont.querySelectorAll('img').length;
+                if (count >= 5) {
+                    alert("Maximal 5 Bilder erlaubt.");
+                    return;
+                }
+                var image = document.createElement('img');
+                image.src = URL.createObjectURL(event.target.files[i]);
+                image.id = "output";
+                image.width = "50";
+                document.querySelector(`#${container}`).appendChild(image);
+            }
+        } else {
+            previewContainer.style.display = 'none';
+        }
+    }
 }
 if (document.getElementById('inputGroupSelect01')) {
     Template.selectTemplate("img")
@@ -221,7 +288,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.log("DOM vollständig geladen und analysiert");
     var lastUploaded = await Infoseite.getLastUploadedInfoseite();
     console.log(lastUploaded);
-    
+
     // var cardObj = { imagePath: 'default.jpg', selectedTime: 10000, isAktiv: 1, startTime: null, endTime: null, startDateTime: null, endDateTime: null, timeAktiv: 0, dateAktiv: 0, titel: 'Beispiel Titel', beschreibung: 'Beispiel Beschreibung' };
     // Infoseite.insertDatabase(cardObj)
 

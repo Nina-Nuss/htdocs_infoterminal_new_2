@@ -58,7 +58,7 @@
                         <input type="text" class="form-control" style="width: 200px;" id="test2" name="test2"
                             placeholder="Inhalt">
                     </div>
-                   
+
                     <div id="tempSnackbar" class="hidden form-group">
                         <label for="test1">Kopfzeile:</label>
                         <input type="text" class="form-control" id="test5" name="test5" placeholder="Titel">
@@ -137,17 +137,7 @@
     var tempTest = document.getElementById('tempTest');
     var inputContainer = document.getElementById('inputContainer');
     var imageContainer = document.getElementById('imageContainer');
-    var previewContainer = ` <div id="previewContainer" style="display:none; margin:10px;">
-                <img id="imgPreview" src="#" alt="Bild-Vorschau" style="max-width:100%; max-height:200px;">
-                <video id="videoPreview" controls muted style="max-width:100%; max-height:200px;">
-                    <source src="#" type="video/mp4">
-                    Ihr Browser unterstützt das Video-Element nicht.
-                </video>
-            </div>`
-    var inputContainerSingle = `<input type="file" class="form-control" id="img" name="files[]" accept="image/*,video/*"
-                                onchange="previewFile('single', this, event, '${inputContainer.id}')">`
 
-    var inputContainerMultiple = ` <input multiple type="file" class="form-control" accept="image/*" name="files[]" id="file" onchange="previewFile('multiple', this, event, '${inputContainer.id}')">`
     var listSelect = [Youtube, datai, tempSnackbar, tempTest];
     selectItem.addEventListener('change', function () {
         var selectedValue = this.value;
@@ -163,9 +153,9 @@
     });
     function loadSelection(option) {
         debugger
-        inputContainer.innerHTML = "";
-        imageContainer.innerHTML = "";
         Template.resetAll();
+        // inputContainer.innerHTML = "";
+        // imageContainer.innerHTML = "";
         listSelect.forEach(function (element) {
             if (element !== option) element.classList.add('hidden');
             else element.classList.remove('hidden');
@@ -175,8 +165,9 @@
             fileInput.value = '';
         }
         if (option.id == "tempTest") {
-            inputContainer.innerHTML += inputContainerSingle;
-            inputContainer.innerHTML += inputContainerSingle;
+            inputContainer.innerHTML += Template.singleContainer();
+            imageContainer.innerHTML += previewContainer;
+
             imageContainer.appendChild(inputContainer);
         } else if (option.id == "tempSnackbar") {
             inputContainer.innerHTML += inputContainerMultiple;
@@ -187,8 +178,14 @@
             }
         } else if (option.id == "dataiContainer") {
             datai.appendChild(inputContainer);
-            inputContainer.innerHTML += inputContainerSingle;
+            var { previewContainer, fileInput } = Template.singleContainer();
             inputContainer.innerHTML += previewContainer;
+            inputContainer.innerHTML += fileInput;
+            debugger
+            var { previewContainer2, fileInput2 } = Template.singleContainer();
+            inputContainer.innerHTML += previewContainer2;
+            inputContainer.innerHTML += fileInput2;
+
         }
     }
     window.addEventListener("load", async function () {
@@ -213,7 +210,7 @@
             var test1 = document.getElementById('test1').value;
             var test2 = document.getElementById('test2').value;
             return [test1, test2];
-        }else if (selectItem.value == "tempSnackbar") {
+        } else if (selectItem.value == "tempSnackbar") {
             var test5 = document.getElementById('test5');
             var test6 = document.getElementById('test6');
             return [test5, test6];
@@ -221,8 +218,8 @@
     }
     document.addEventListener('DOMContentLoaded', function () {
         const selectItem = document.getElementById('inputGroupSelect01');
-        selectItem.value = 'tempTest'; // setzt auf Youtube
-        loadSelection(tempTest);
+        selectItem.value = 'img'; // setzt auf Bild
+        loadSelection(dataiContainer);
 
     });
 </script>
