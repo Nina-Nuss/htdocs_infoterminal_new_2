@@ -984,7 +984,7 @@ async function meow(event, selectedValue, liste) {
     debugger
     event.preventDefault(); // Verhindert das Standardverhalten des Formulars
     // Improved file upload handling for multiple images
-    
+
     if (selectedValue === "img") {
         const result = await sendDatei(event);
         if (result) {
@@ -1024,13 +1024,15 @@ async function meow(event, selectedValue, liste) {
             } else {
                 validLink = link;
             }
-            prefix = linkType + "_"; // z.B. "yt_", "tiktok_"
-            console.log("Valid Link:", validLink);
 
         } else {
             alert("Ungültiger Link. Unterstützt: YouTube, TikTok, Instagram, ZDF, Tagesschau.");
             return;
         }
+        prefix = linkType + "_"; // z.B. "yt_", "tiktok_"
+        console.log("Valid Link:", validLink);
+        var prefixedLink = prefix + validLink;
+        console.log("Prefixed Link:", prefixedLink);
     } else if (selectedValue === "temp1") {
 
         alert("diese Option ist noch in Arbeit.");
@@ -1046,11 +1048,9 @@ async function meow(event, selectedValue, liste) {
         return;
     }
     // Gemeinsame Logik für Links
-    const prefixedLink = prefix + validLink;
-    console.log("Prefixed Link:", prefixedLink);
+
     try {
         await createInfoseiteObj(prefixedLink, selectedTime, aktiv, titel, description);
-
         Template.resetForm("infoSeiteForm");
         console.log("Infoseite wurde erfolgreich erstellt.");
     } catch (error) {

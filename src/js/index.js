@@ -200,7 +200,7 @@ function showDateTime(type) {
     }
 }
 function findObj(list, id) {
-    
+
     if (typeof id === "string") {
         var number = extractNumberFromString(id);
     } else {
@@ -241,6 +241,7 @@ function convertCardObjForDataBase(cardObjListe) {
     });
     return objListe
 }
+
 
 // Aufruf der Funktion
 
@@ -384,7 +385,7 @@ async function startProgressBar(ms, idbar) {
     try {
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.setAttribute('data-bs-theme', 'dark');
-        }else{
+        } else {
             document.documentElement.setAttribute('data-bs-theme', 'light');
         }
     } catch (e) { }
@@ -394,11 +395,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('themeToggle').addEventListener('click', () => {
             const root = document.documentElement;
             if (root.getAttribute('dark') || root.getAttribute('data-bs-theme') === 'dark') {
-                root.setAttribute('data-bs-theme','light');
+                root.setAttribute('data-bs-theme', 'light');
                 root.removeAttribute('data-bs-theme');
                 localStorage.removeItem('theme');
             } else {
-                root.setAttribute('data-bs-theme','dark'); // oder: root.setAttribute('data-bs-theme','dark');
+                root.setAttribute('data-bs-theme', 'dark'); // oder: root.setAttribute('data-bs-theme','dark');
                 localStorage.setItem('theme', 'dark');
             }
         });
@@ -418,3 +419,4 @@ document.addEventListener('DOMContentLoaded', () => {
 //         }
 //     });
 // }
+

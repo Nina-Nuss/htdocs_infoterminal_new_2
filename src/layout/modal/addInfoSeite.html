@@ -20,7 +20,7 @@
                         <select class="form-select" id="inputGroupSelect01">
                             <option value="img">Bilder/Video</option>
                             <option value="yt">Youtube</option>
-                            <option selected value="temp1">Test 1</option>
+                            <option value="temp1" selected>Test 1</option>
                             <option value="tempTest">Test 2</option>
                         </select>
                     </div>
@@ -50,7 +50,7 @@
                             <i class="fas fa-image me-2"></i> Bild auswählen <span style="color:red">*</span>
                         </label>
                     </div>
-                    <div id="tempTest" class="d-flex justify-content-center gap-2 align-items-center hidden form-group">
+                    <div id="tempTest" class="d-flex justify-content-center align-items-center hidden form-group">
                         <label for="test1">Text Links</label>
                         <input type="text" class="form-control" style="width: 200px;" id="test1" name="test1"
                             placeholder="Titel">
@@ -211,7 +211,7 @@
             start = document.getElementById('start').value;
             end = document.getElementById('end').value;
             return [yt, start, end];
-        }else if(selectItem.value == "img"){
+        } else if (selectItem.value == "img") {
             var fileInput = document.getElementById('img');
             return [fileInput];
         } else if (selectItem.value == "tempTest") {
@@ -228,4 +228,12 @@
             return [test5, test6];
         }
     }
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectItem = document.getElementById('inputGroupSelect01');
+        const current = selectItem.selectedValue; // z.B. "img" oder "yt"
+        // programmatisch setzen
+        selectItem.value = 'yt'; // setzt auf Youtube
+        loadSelection(document.getElementById('YoutubeContainer'));
+
+    });
 </script>
