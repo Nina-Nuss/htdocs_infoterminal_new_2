@@ -934,13 +934,14 @@ function detectLinkType(link) {
     if (checkTikTokUrl(link)) return "tiktok";
     return null; // Unbekannter Typ
 }
-async function meow(event, selectedValue, liste) {
+async function meow(selectedValue, liste) {
     debugger
-    event.preventDefault(); // Verhindert das Standardverhalten des Formulars
-    // Improved file upload handling for multiple images
-
     if (selectedValue === "img") {
-        const result = await sendDatei(event);
+        console.log(liste.getAll('files[]'));
+        console.log(liste.getAll('files[]').name);
+        console.log(liste.getAll('files[]').size);
+        console.log(liste.getAll('files[]').length);
+        const result = await sendDatei(liste);
         if (result) {
             console.log("Infoseite wurde erfolgreich erstellt.");
         } else {
@@ -948,7 +949,7 @@ async function meow(event, selectedValue, liste) {
         }
         return; // Für Bilder ist es anders, daher return
     } else if (selectedValue === "yt") {
-        var { datai, selectedTime, aktiv, titel, description } = prepareFormData(event);
+        var { datai, selectedTime, aktiv, titel, description } = prepareFormData(liste);
         console.log("Selected Value:", selectedValue);
         console.log("Link:", liste[0]);
         console.log("Start:", liste[1]);
@@ -1055,30 +1056,23 @@ function checkTikTokUrl(url) {
     const pattern = /^(https?:\/\/)?(www\.)?(tiktok\.com\/(@[\w.-]+\/video\/|embed\/v2\/)|vm\.tiktok\.com\/)[A-Za-z0-9_-]{19}(\S*)?$/;
     return pattern.test(url);
 }
-function prepareFormData(event) {
-    event.preventDefault(); // Verhindert das Standardverhalten des Formulars
+function prepareFormData(formData) {
     debugger
-    let formData = null;
-    let datai = null;
-    const form = event.target.form;
-    formData = new FormData(form);
     var inputContainer = document.getElementById('inputContainer');
     console.log(formData.get('youtubeUrl'));
     if (formData.get('files[]')) {
         datai = formData.get('files[]');
-        const files = Array.from(inputContainer.querySelectorAll('input[type="file"]')).flatMap(inp => Array.from(inp.files || []));
-        console.log(files);
-        if (!files) {
+        if (!datai.name) {
             alert("Kein Datei-Input für Bilder gefunden.");
             return;
         }
-        if (!files || files.length === 0) {
+        if (!datai || datai.length === 0) {
             alert("Bitte wählen Sie mindestens ein Bild aus.");
             return;
         }
-        alert(`Anzahl ausgewählter Bilder: ${files.length}`);
-        for (let i = 0; i < files.length; i++) {
-            formData.append('files[]', files[i]);
+        alert(`Anzahl ausgewählter Bilder: ${datai.length}`);
+        for (let i = 0; i < datai.length; i++) {
+            formData.append('files[]', datai[i]);
         }
     } else if (formData.get('youtubeUrl')) {
         datai = formData.get('youtubeUrl');
@@ -1091,7 +1085,6 @@ function prepareFormData(event) {
 }
 async function sendDatei(event) {
     let { formData, selectedTime, aktiv, titel, description } = prepareFormData(event); // Formulardaten vorbereiten
-    const form = event.target.form;
     console.log("Selected Time:", selectedTime);
     if (!datai || selectedTime === "" || aktiv === null || titel === "") {
         alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");

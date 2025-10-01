@@ -1,7 +1,8 @@
 class Template {
     static list = []
     static testAnzeige = []
-    static ccImage = 0;
+    static imgContainerCount = 0;
+    static youtubeContainerCount = 0;
     static ccText = 0;
     constructor(id, templateName, typ, inhalt) {
         this.id = id;
@@ -11,28 +12,25 @@ class Template {
         Template.list.push(this);
     }
     static selectTemplate(template) {
+        var templatesContainer = document.getElementById("templatesContainer");
         var fileInput = document.getElementById('img');
         var inputGroupSelect01 = document.getElementById('inputGroupSelect01');
         var ytInput = document.getElementById('youtubeUrl');
-        var datai = document.getElementById('datai');
-        if (!inputGroupSelect01) return;
-        inputGroupSelect01.value = template; // Setze den Wert des Select-Elements
-        var selectedValue = template;
         var Youtube = document.getElementById('YoutubeContainer');
-        var datai = document.getElementById('dataiContainer');
+        if (!inputGroupSelect01) return;
+        var selectedValue = template;
+
         if (selectedValue === 'yt') {
             this.resetAll();
-            Youtube.classList.remove('hidden');
-            datai.classList.add('hidden');
-            if (fileInput) {
+            templatesContainer.innerHTML = Template.youtubeContainer();
+                if(fileInput) {
                 fileInput.disabled = true;
                 fileInput.value = '';
             } if (ytInput) ytInput.disabled = false;
-            inputGroupSelect01.dispatchEvent(new Event('change')); // Trigger das Change-Event
         } else if (selectedValue === 'img') {
             this.resetAll();
-            Youtube.classList.add('hidden');
-            datai.classList.remove('hidden');
+            debugger
+            templatesContainer.innerHTML = Template.imgContainer();
             if (fileInput) {
                 fileInput.disabled = false;
                 fileInput.value = '';
@@ -40,14 +38,19 @@ class Template {
             if (ytInput) {
                 ytInput.disabled = true; // optional
             }
-            inputGroupSelect01.dispatchEvent(new Event('change')); // Trigger das Change-Event
+
+        } else if (selectedValue === 'tempSnackbar') {
+            this.resetAll();
+        }
+        else if (selectedValue === 'tempTest') {
+            this.resetAll();
         }
     }
     static resetAll() {
         let previewContainer = document.getElementById('previewContainer');
         debugger
         let idsTwo = ["imgPreview", "videoPreview"];
-        let idsOne = ["img", "youtubeUrl", "start", "end", "title", "description" , "inputContainer", "imageContainer"];
+        let idsOne = ["img", "youtubeUrl", "start", "end", "title", "description", "inputContainer", "imageContainer"];
         idsOne.forEach(id => {
             const element = document.getElementById(id);
             if (element) {
@@ -77,27 +80,59 @@ class Template {
             modalInstance.hide();
         }
     }
-    static singleContainer() {
+    static imgContainer() {
         debugger
-        Template.ccImage += 1;
-        let fileInput = ` <div id="previewContainer${Template.ccImage}" style="display:none; margin:10px;">
-                <img id="imgPreview${Template.ccImage}" src="#" alt="Bild-Vorschau" style="max-width:100%; max-height:200px;">
-                <video id="videoPreview${Template.ccImage}" controls muted style="max-width:100%; max-height:200px;">
-                    <source src="#" type="video/mp4">
-                    Ihr Browser unterstützt das Video-Element nicht.
-                </video>
-            </div>`
-        let previewContainer = `<input type="file" class="form-control" id="img${Template.ccImage}" name="files[]" accept="image/*,video/*"
-                                onchange="Template.previewFile('single', this, event, document.getElementById('previewContainer${Template.ccImage}'), document.getElementById('imgPreview${Template.ccImage}'), document.getElementById('videoPreview${Template.ccImage}'));" >`
-        return { previewContainer, fileInput };
+        Template.imgContainerCount += 1;
+        let form = `<form id="dataiContainer" class="form-group">
+                    <label for="img" class="form-label">
+                        <i class="fas fa-image me-2"></i> Bild auswählen <span style="color:red">*</span>
+                    </label>
+                    <div id="previewContainer" style="display:none; margin-bottom:10px;">
+                        <img id="imgPreview" src="#" alt="Bild-Vorschau" name="imgPreview"
+                            style="max-width:100%; max-height:200px;">
+                        <video id="videoPreview" controls muted name="videoPreview"
+                            style="max-width:100%; max-height:200px;">
+                            <source src="#" type="video/mp4">
+                            Ihr Browser unterstützt das Video-Element nicht.
+                        </video>
+                    </div>
+                    <input type="file" class="form-control" id="img" name="files[]" accept="image/*,video/*"
+                        onchange="Template.previewFile('single', this, event, document.getElementById('previewContainer'), document.getElementById('imgPreview'), document.getElementById('videoPreview'));" >
+                    <input type="file" class="form-control" id="img2" name="files[]" accept="image/*,video/*"
+                        onchange="Template.previewFile('single', this, event, document.getElementById('previewContainer'), document.getElementById('imgPreview'), document.getElementById('videoPreview'));" >
+                    </form>
+                    `
+                    ;
+        return form;
     }
-    static textContainer(){
-        let textInput = `<div class="mb-3">
-            <label for="title" class="form-label">Titel</label>
-            <input type="text" id="text${Template.ccText}" class="form-control" name="title" placeholder="Titel eingeben">
-        </div>`;
-        return textInput;
+
+    static youtubeContainer() {
+        Template.youtubeContainerCount += 1;
+        let youtubeForm = `
+        <div id="YoutubeContainer">
+                        <label for="img" class="form-label">
+                            <i class="fab fa-youtube me-2"></i> Link auswählen <span style="color:red">*</span>
+                        </label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">URL:</span>
+                            <input type="text" class="form-control" id="youtubeUrl" name="youtubeUrl"
+                                placeholder="Youtube Link eingeben" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <label for="img" class="form-label">
+                            <i class="fab fa-youtube me-2"></i> Video Timestamp in Sekunden (optional)
+                        </label>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">von</span>
+                            <input type="text" id="start" class="form-control" placeholder="Sekunden" value=""
+                                aria-label="Sekunden" aria-describedby="addon-wrapping">
+                            <span class="input-group-text">bis</span>
+                            <input type="text" id="end" class="form-control" placeholder="Sekunden" value=""
+                                aria-label="Sekunden" aria-describedby="addon-wrapping">
+                        </div>
+                    </div>`;
+        return youtubeForm;
     }
+
 
     static createPic(element) {
         const img = document.createElement('img');
