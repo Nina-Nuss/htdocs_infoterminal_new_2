@@ -2,6 +2,7 @@
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['files'])) {
+        echo 'Dateien empfangen: ';
         $errors = [];
         $path = 'uploads/';
         $extensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -37,5 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             print_r(json_encode(['file_names' => $fileNames]));
         }
+    }else{
+        echo 'Keine Dateien empfangen.';
     }
 }

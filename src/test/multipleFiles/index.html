@@ -4,9 +4,21 @@
     }
 
     label {
-        
         width: 200px;
         height: 200px;
+        border: 2px solid #4CAF50;
+        border-radius: 4px;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        color: white;
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+    .bigLabel {
+        width: 400px;
+        height: 400px;
         border: 2px solid #4CAF50;
         border-radius: 4px;
         display: inline-block;
@@ -19,7 +31,24 @@
     .containerForPics {
         object-fit: cover;
         width: 200px;
-        height: 200px;  
+        height: 200px;
+        border: 2px solid #4CAF50;
+        border-radius: 4px;
+        display: none;
+        padding: 6px 12px;
+        cursor: pointer;
+        color: white;
+        font-size: 16px;
+    }
+
+    .containerForPics:hover {
+        border: 2px solid #45a049;
+    }
+
+    .containerForBigPics {
+        object-fit: cover;
+        width: 400px;
+        height: 400px;
         border: 2px solid #4CAF50;
         border-radius: 4px;
         display: none;
@@ -31,36 +60,27 @@
 </style>
 
 
-
-</style>
-
-
-
 <div id="multipleFiles">
     <label for="file1" id="label1"></label>
-    <input type="file" id="file1" name="files[]"
-        onchange="showPreview(this, 'container1', 'label1')">
-    <img for="file1" id="container1"  class="containerForPics"></img>
+    <input type="file" id="file1" name="files[]" onchange="showPreview(this, 'container1', 'label1')">
+    <img for="file1" id="container1" class="containerForPics"></img>
+    <input type="text" for="file1">
     <label for="file2" id="label2"></label>
-    <input type="file" id="file2" name="files[]" 
-        onchange="showPreview(this, 'container2', 'label2')">
+    <input type="file" id="file2" name="files[]" onchange="showPreview(this, 'container2', 'label2')">
     <img id="container2" class="containerForPics"></img>
-    <label for="file3" id="label3"></label>
-    <input type="file" id="file3" name="files[]"
-        onchange="showPreview(this, 'container3', 'label3')">
-    <img id="container3" class="containerForPics"></img>
-    <label for="file4" id="label4"></label>
-    <input type="file" id="file4" name="files[]"
-        onchange="showPreview(this, 'container4', 'label4')">
-    <img id="container4" class="containerForPics"></img>
-    <input type="text">
-    <input type="text">
+    <label for="file3" id="label3" class="bigLabel"></label>
+    <input type="file" id="file3" name="files[]" onchange="showPreview(this, 'container3', 'label3')">
+    <img id="container3" class="containerForBigPics"></img>
+    <label for="file4" id="label4" class="bigLabel"></label>
+    <input type="file" id="file4" name="files[]" onchange="showPreview(this, 'container4', 'label4')">
+    <img id="container4" class="containerForBigPics"></img>
+    <input type="text" for="file4">
     <button onclick="uploadFiles()" name="submit">Upload Files</button>
 </div>
 <script>
     function uploadFiles() {
-        debugger
-
+        const form = new FormData
+  
         const fileInputs = document.querySelectorAll('input[type="file"]');
         const textInputs = document.querySelectorAll('input[type="text"]');
         console.log('File Inputs:', fileInputs);
@@ -68,17 +88,17 @@
         for (let i = 0; i < fileInputs.length; i++) {
             const files = fileInputs[i].files;
             for (let k = 0; k < files.length; k++) {
-                const file = files[k].name;
+                const file = files[k];
                 console.log(`File from input ${i}:`, file);
+                form.append(`files[]`, file);
             }
         }
-        
-
-
         for (let j = 0; j < textInputs.length; j++) {
             const textValue = textInputs[j].value;
             console.log(`Text from input ${j}:`, textValue);
         }
+
+        moveFileToServer(form);
     }
     function showPreview(input, containerId, labelId) {
         const file = input.files[0];
@@ -100,26 +120,23 @@
         }
     }
 
-    function moveFileToServer(list) {
-        list.forEach(input => {
-            const file = input.files[0];
-            if (file) {
-                const formData = new FormData();
-                formData.append('file', file);
-                fetch('/upload', {
+    function moveFileToServer(form) {
+       
+        if (form) {
+            fetch('../uploads', {
                 method: 'POST',
-                body: formData
+                body: form
             })
-            .then(response => {
-                if (response.ok) {
-                    console.log('File uploaded successfully');
-                } else {
-                    console.error('File upload failed');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                .then(response => {
+                    if (response.ok) {
+                        console.log('result: ', response);
+                    } else {
+                        console.error('File upload failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
-    }
+    };
 </script>
