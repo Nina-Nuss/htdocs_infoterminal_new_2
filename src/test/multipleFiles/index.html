@@ -1,30 +1,125 @@
-<form method="post" enctype="multipart/form-data">
-    <input type="file" name="files[]">
-    <input type="file" name="files[]">
-    <input type="file" name="files[]">
-    <input type="file" name="files[]">
-    <input type="submit" value="Upload File" name="submit">
-</form>
-<script type="text/javascript">
-    const url = 'index.php';
-    const form = document.querySelector('form');
+<style>
+    input[type="file"] {
+        display: none;
+    }
 
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        const inputs = document.querySelectorAll('input[type="file"]');
-        const fd = new FormData();
-        for (let i = 0; i < inputs.length; i++) {
-            const files = inputs[i].files;
-            for (let j = 0; j < files.length; j++) {
-                fd.append('files[]', files[j]);
+    label {
+        
+        width: 200px;
+        height: 200px;
+        border: 2px solid #4CAF50;
+        border-radius: 4px;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        color: white;
+        font-size: 16px;
+    }
+
+    .containerForPics {
+        object-fit: cover;
+        width: 200px;
+        height: 200px;  
+        border: 2px solid #4CAF50;
+        border-radius: 4px;
+        display: none;
+        padding: 6px 12px;
+        cursor: pointer;
+        color: white;
+        font-size: 16px;
+    }
+</style>
+
+
+
+</style>
+
+
+
+<div id="multipleFiles">
+    <label for="file1" id="label1"></label>
+    <input type="file" id="file1" name="files[]"
+        onchange="showPreview(this, 'container1', 'label1')">
+    <img for="file1" id="container1"  class="containerForPics"></img>
+    <label for="file2" id="label2"></label>
+    <input type="file" id="file2" name="files[]" 
+        onchange="showPreview(this, 'container2', 'label2')">
+    <img id="container2" class="containerForPics"></img>
+    <label for="file3" id="label3"></label>
+    <input type="file" id="file3" name="files[]"
+        onchange="showPreview(this, 'container3', 'label3')">
+    <img id="container3" class="containerForPics"></img>
+    <label for="file4" id="label4"></label>
+    <input type="file" id="file4" name="files[]"
+        onchange="showPreview(this, 'container4', 'label4')">
+    <img id="container4" class="containerForPics"></img>
+    <input type="text">
+    <input type="text">
+    <button onclick="uploadFiles()" name="submit">Upload Files</button>
+</div>
+<script>
+    function uploadFiles() {
+        debugger
+
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        const textInputs = document.querySelectorAll('input[type="text"]');
+        console.log('File Inputs:', fileInputs);
+        console.log('Text Inputs:', textInputs);
+        for (let i = 0; i < fileInputs.length; i++) {
+            const files = fileInputs[i].files;
+            for (let k = 0; k < files.length; k++) {
+                const file = files[k].name;
+                console.log(`File from input ${i}:`, file);
             }
         }
-        // Uses browser's built in Fetch API - you can replace this with jQuery or whatever you choose.
-        fetch(url, {
-            method: 'POST',
-            body: fd
-        }).then(response => {
-            console.log(response);
-        });
-    });
+        
+
+
+        for (let j = 0; j < textInputs.length; j++) {
+            const textValue = textInputs[j].value;
+            console.log(`Text from input ${j}:`, textValue);
+        }
+    }
+    function showPreview(input, containerId, labelId) {
+        const file = input.files[0];
+        console.log(file);
+        console.log(input.files);
+        console.log(input);
+        if (labelId) document.getElementById(labelId).style.display = 'none';
+        input.style.display = 'none';
+        const container = document.getElementById(containerId);
+        if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                container.src = e.target.result;
+                container.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            container.style.display = 'none';
+        }
+    }
+
+    function moveFileToServer(list) {
+        list.forEach(input => {
+            const file = input.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('file', file);
+                fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('File uploaded successfully');
+                } else {
+                    console.error('File upload failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    }
 </script>
