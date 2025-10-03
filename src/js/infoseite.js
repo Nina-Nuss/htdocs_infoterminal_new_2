@@ -934,22 +934,11 @@ function detectLinkType(link) {
     if (checkTikTokUrl(link)) return "tiktok";
     return null; // Unbekannter Typ
 }
-<<<<<<< Updated upstream
-async function meow(selectedValue, liste) {
-    debugger
-    if (selectedValue === "img") {
-        console.log(liste.getAll('files[]'));
-        console.log(liste.getAll('files[]').name);
-        console.log(liste.getAll('files[]').size);
-        console.log(liste.getAll('files[]').length);
-        const result = await sendDatei(liste);
-=======
 async function meow(event, selectedValue, liste) {
     event.preventDefault();
     // Improved file upload handling for multiple images
     if (selectedValue === "img") {
         const result = await sendDatei();
->>>>>>> Stashed changes
         if (result) {
             console.log("Infoseite wurde erfolgreich erstellt.");
         } else {
@@ -957,11 +946,7 @@ async function meow(event, selectedValue, liste) {
         }
         return; // Für Bilder ist es anders, daher return
     } else if (selectedValue === "yt") {
-<<<<<<< Updated upstream
-        var { datai, selectedTime, aktiv, titel, description } = prepareFormData(liste);
-=======
         var { datai, selectedTime, aktiv, titel, description } = prepareFormData();
->>>>>>> Stashed changes
         console.log("Selected Value:", selectedValue);
         console.log("Link:", liste[0]);
         console.log("Start:", liste[1]);
@@ -1066,15 +1051,6 @@ function checkTikTokUrl(url) {
     const pattern = /^(https?:\/\/)?(www\.)?(tiktok\.com\/(@[\w.-]+\/video\/|embed\/v2\/)|vm\.tiktok\.com\/)[A-Za-z0-9_-]{19}(\S*)?$/;
     return pattern.test(url);
 }
-<<<<<<< Updated upstream
-function prepareFormData(formData) {
-    debugger
-    var inputContainer = document.getElementById('inputContainer');
-    console.log(formData.get('youtubeUrl'));
-    if (formData.get('files[]')) {
-        datai = formData.get('files[]');
-        if (!datai.name) {
-=======
 function prepareFormData() {
     debugger;
     let formData = null;
@@ -1088,7 +1064,6 @@ function prepareFormData() {
         console.log(files);
 
         if (!files) {
->>>>>>> Stashed changes
             alert("Kein Datei-Input für Bilder gefunden.");
             return;
         }
@@ -1096,15 +1071,9 @@ function prepareFormData() {
             alert("Bitte wählen Sie mindestens ein Bild aus.");
             return;
         }
-<<<<<<< Updated upstream
-        alert(`Anzahl ausgewählter Bilder: ${datai.length}`);
-        for (let i = 0; i < datai.length; i++) {
-            formData.append('files[]', datai[i]);
-=======
         alert(`Anzahl ausgewählter Bilder: ${files.length}`);
         for (let i = 0; i < files.length; i++) {
             filesData.append('files[]', files[i]);
->>>>>>> Stashed changes
         }
     } else if (formData.get('youtubeUrl')) {
         datai = formData.get('youtubeUrl');
@@ -1115,13 +1084,8 @@ function prepareFormData() {
     const description = formData.get('description');
     return { filesData, selectedTime, aktiv, titel, description };
 }
-<<<<<<< Updated upstream
-async function sendDatei(event) {
-    let { formData, selectedTime, aktiv, titel, description } = prepareFormData(event); // Formulardaten vorbereiten
-=======
 async function sendDatei() {
     let { filesData, selectedTime, aktiv, titel, description } = prepareFormData(); // Formulardaten vorbereiten
->>>>>>> Stashed changes
     console.log("Selected Time:", selectedTime);
     if (!datai || selectedTime === "" || aktiv === null || titel === "") {
         alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
