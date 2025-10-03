@@ -1087,17 +1087,17 @@ function prepareFormData() {
 async function sendDatei() {
     let { filesData, selectedTime, aktiv, titel, description } = prepareFormData(); // Formulardaten vorbereiten
     console.log("Selected Time:", selectedTime);
-    if (!datai || selectedTime === "" || aktiv === null || titel === "") {
+    if (!filesData || selectedTime === "" || aktiv === null || titel === "") {
         alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
         return false;
     }
-    if (datai.size > 7.8 * 1024 * 1024) { // 8 MB in Bytes
+    if (filesData.size > 7.8 * 1024 * 1024) { // 8 MB in Bytes
         alert("Die Datei ist zu groß. Bitte wählen Sie eine Datei unter 8 MB.");
         return false;
     }
     // Bild hochladen und vom Server den Dateinamen erhalten
-    console.log("image: ", datai.name);
-    if (datai.name == "") {
+    console.log("image: ", filesData.get('files[]').name);
+    if (filesData.get('files[]').name == "") {
         alert("Bitte wählen Sie eine Datei aus.");
         return false;
     }
