@@ -48,7 +48,7 @@ class Template {
     }
     static resetAll() {
         let previewContainer = document.getElementById('previewContainer');
-        debugger
+
         let idsTwo = ["imgPreview", "videoPreview"];
         let idsOne = ["img", "youtubeUrl", "start", "end", "title", "description", "inputContainer", "imageContainer"];
         idsOne.forEach(id => {
@@ -80,6 +80,7 @@ class Template {
             modalInstance.hide();
         }
     }
+<<<<<<< Updated upstream
     static imgContainer() {
         debugger
         Template.imgContainerCount += 1;
@@ -104,6 +105,21 @@ class Template {
                     `
                     ;
         return form;
+=======
+    static singleContainer() {
+
+        Template.ccImage += 1;
+        let fileInput = ` <div id="previewContainer${Template.ccImage}" style="display:none; margin:10px;">
+                <img id="imgPreview${Template.ccImage}" src="#" alt="Bild-Vorschau" style="max-width:100%; max-height:200px;">
+                <video id="videoPreview${Template.ccImage}" controls muted style="max-width:100%; max-height:200px;">
+                    <source src="#" type="video/mp4">
+                    Ihr Browser unterstützt das Video-Element nicht.
+                </video>
+            </div>`
+        let previewContainer = `<input type="file" class="form-control" id="img${Template.ccImage}" name="files[]" accept="image/*,video/*"
+                                onchange="Template.previewFile('single', this, event, document.getElementById('previewContainer${Template.ccImage}'), document.getElementById('imgPreview${Template.ccImage}'), document.getElementById('videoPreview${Template.ccImage}'));" >`
+        return { previewContainer, fileInput };
+>>>>>>> Stashed changes
     }
 
     static youtubeContainer() {

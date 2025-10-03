@@ -5,6 +5,7 @@
                 <h5 class="modal-title" id="addInfoSeiteLabel">Infoseite hinzufügen</h5>
             </div>
             <div class="modal-body">
+<<<<<<< Updated upstream
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
                     <button type="submit" class="btn btn-success shadow-sm" onclick="meow(selectItem.value, getList())">
@@ -29,6 +30,62 @@
                         <label for="test2">Text Rechts:</label>
                         <input type="text" class="form-control" style="width: 200px;" id="test2" name="test2"
                             placeholder="Inhalt">
+=======
+                <form id="infoSeiteForm" method="post" enctype="multipart/form-data">
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                        <button type="submit" class="btn btn-success shadow-sm"
+                            onclick="meow(event, selectItem.value, getList())">
+                            <i class="fas fa-plus me-2"></i> Hinzufügen
+                        </button>
+                    </div>
+                    <div class="input-group form-group mb-3 mt-3">
+                        <label class="input-group-text" for="inputGroupSelect01">Template</label>
+                        <select class="form-select" id="inputGroupSelect01">
+                            <option value="img">Bilder/Video</option>
+                            <option value="yt">Youtube</option>
+                            <option value="tempTest">Test 1</option>
+                            <option value="tempSnackbar">Test 2</option>
+                        </select>
+                    </div>
+                    <div id="YoutubeContainer" class="hidden">
+                        <label for="img" class="form-label">
+                            <i class="fab fa-youtube me-2"></i> Link auswählen <span style="color:red">*</span>
+                        </label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">URL:</span>
+                            <input type="text" class="form-control" id="youtubeUrl" name="youtubeUrl"
+                                placeholder="Youtube Link eingeben" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                        <label for="img" class="form-label">
+                            <i class="fab fa-youtube me-2"></i> Video Timestamp in Sekunden (optional)
+                        </label>
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text">von</span>
+                            <input type="text" id="start" class="form-control" placeholder="Sekunden" value=""
+                                aria-label="Sekunden" aria-describedby="addon-wrapping">
+                            <span class="input-group-text">bis</span>
+                            <input type="text" id="end" class="form-control" placeholder="Sekunden" value=""
+                                aria-label="Sekunden" aria-describedby="addon-wrapping">
+                        </div>
+                    </div>
+                    <div id="dataiContainer" class="hidden form-group">
+                        <label for="img" class="form-label">
+                            <i class="fas fa-image me-2"></i> Bild auswählen <span style="color:red">*</span>
+                        </label>
+                    </div>
+                    <div id="tempTest" class="d-flex justify-content-between align-items-center hidden form-group">
+                        <div>
+                            <label for="test1">Text Links</label>
+                            <input type="text" class="form-control" style="width: 200px;" id="test1" name="test1"
+                                placeholder="Titel">
+                        </div>
+                        <div>
+                            <label for="test2">Text Rechts:</label>
+                            <input type="text" class="form-control" style="width: 200px;" id="test2" name="test2"
+                                placeholder="Inhalt">
+                        </div>
+>>>>>>> Stashed changes
                     </div>
                     <div id="tempSnackbar" class="hidden form-group">
                         <label for="test1">Kopfzeile:</label>
@@ -40,6 +97,7 @@
                     </div>
                     <div id="inputContainer"></div>
                     <hr class="my-4">
+<<<<<<< Updated upstream
 
                 </div>
                 <div class="mt-3 d-flex justify-content-center ">
@@ -84,8 +142,51 @@
                         </select>
                     </div>
                 </div>
+=======
+                    <div class="mt-3 d-flex justify-content-center ">
+                        <div class="form-group mb-3 mx-2 ">
+                            <label for="title" class="form-label">
+                                <i class="fas fa-tag me-2"></i> Name: <span style="color:red">*</span>
+                            </label>
+                            <input type="text" class="form-control" id="title" name="title" value=""
+                                placeholder="Infoseite Name eingeben">
+                        </div>
+                        <div class="form-group mb-3 mx-2">
+                            <label for="description" class="form-label">
+                                <i class="fas fa-align-left me-2"></i> Beschreibung:
+                            </label>
+                            <textarea class="form-control" id="description" name="description" rows="1"
+                                placeholder="Beschreibung eingeben"></textarea>
+                        </div>
+                        <div class="form-group mb-3 mx-2">
+                            <label for="selectedTime" class="form-label">
+                                <i class="fas fa-clock me-2"></i> Anzeigedauer:
+                            </label>
+                            <select class="form-select" id="selectedTime" name="selectedTime">
+                                <option value="3000">3 Sekunden</option>
+                                <option value="5000">5 Sekunden</option>
+                                <option value="10000">10 Sekunden</option>
+                                <option value="15000" selected>15 Sekunden</option>
+                                <option value="20000">20 Sekunden</option>
+                                <option value="25000">25 Sekunden</option>
+                                <option value="30000">30 Sekunden</option>
+                                <option value="45000">45 Sekunden</option>
+                                <option value="60000">1 Minute</option>
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="aktiv" class="form-label">
+                                <i class="fas fa-toggle-on me-2"></i> Status:
+                            </label>
+                            <select class="form-select" id="aktiv" name="aktiv">
+                                <option value="1">Aktiv</option>
+                                <option value="0">Inaktiv</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+>>>>>>> Stashed changes
             </div>
-
         </div>
     </div>
 </div>
@@ -98,7 +199,20 @@
     }
 </style>
 <script>
+<<<<<<< Updated upstream
     const selectItem = document.getElementById('inputGroupSelect01');
+=======
+    var fileInput = document.getElementById('img');
+    var selectItem = document.getElementById('inputGroupSelect01');
+    var ytInput = document.getElementById('youtubeUrl');
+    var Youtube = document.getElementById('YoutubeContainer');
+    var datai = document.getElementById('dataiContainer');
+    var tempSnackbar = document.getElementById('tempSnackbar');
+    var tempTest = document.getElementById('tempTest');
+    var inputContainer = document.getElementById('inputContainer');
+    var imageContainer = document.getElementById('imageContainer');
+    var listSelect = [Youtube, datai, tempSnackbar, tempTest];
+>>>>>>> Stashed changes
     selectItem.addEventListener('change', function () {
         debugger
         var selectedValue = this.value;
@@ -109,11 +223,66 @@
         } else if (selectedValue === 'tempSnackbar') {
             Template.selectTemplate('tempSnackbar');
         } else if (selectedValue === 'tempTest') {
+<<<<<<< Updated upstream
             Template.selectTemplate('tempTest');
+=======
+            loadSelection(tempTest);
+        }
+    });
+    function loadSelection(option) {
+        if (Template) {
+            Template.resetAll();
+        }
+        // inputContainer.innerHTML = "";
+        // imageContainer.innerHTML = "";
+        listSelect.forEach(function (element) {
+            if (element !== option) element.classList.add('hidden');
+            else element.classList.remove('hidden');
+        });
+        if (fileInput) {
+            fileInput.disabled = false;
+            fileInput.value = '';
+        }
+        if (option.id == "tempTest") {
+            inputContainer.innerHTML += Template.singleContainer();
+            imageContainer.innerHTML += previewContainer;
+
+            imageContainer.appendChild(inputContainer);
+        } else if (option.id == "tempSnackbar") {
+            inputContainer.innerHTML += inputContainerMultiple;
+            imageContainer.appendChild(inputContainer);
+        } else if (option.id == "YoutubeContainer") {
+            if (ytInput) {
+                ytInput.disabled = false;
+            }
+        } else if (option.id == "dataiContainer") {
+            datai.appendChild(inputContainer);
+            var {
+                previewContainer,
+                fileInput
+            } = Template.singleContainer();
+            inputContainer.innerHTML += previewContainer;
+            inputContainer.innerHTML += fileInput;
+            var {
+                previewContainer2,
+                fileInput2
+            } = Template.singleContainer();
+            inputContainer.innerHTML += previewContainer2;
+            inputContainer.innerHTML += fileInput2;
+
+        }
+    }
+    window.addEventListener("load", async function () {
+        const templatebereich = document.getElementById("templateBereich");
+        if (templatebereich !== null) {
+            templatebereich.addEventListener("click", async function (event) {
+                window.location.href = 'templatebereich.php';
+            });
+>>>>>>> Stashed changes
         }
     });
     function getList() {
-        debugger;
+
         if (selectItem.value == "yt") {
             yt = document.getElementById('youtubeUrl').value;
             start = document.getElementById('start').value;

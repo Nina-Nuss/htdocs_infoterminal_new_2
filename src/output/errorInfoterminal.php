@@ -18,7 +18,6 @@ include '../assets/links.html';
     </div>
     <div class="mt-4"></div>
     <div id="error-message">
-
     </div>
 </body>
   <?php include '../test/progressbar.php'; ?>

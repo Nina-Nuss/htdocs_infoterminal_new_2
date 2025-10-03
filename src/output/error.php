@@ -20,9 +20,7 @@ include '../assets/links.html';
      <div class="mt-4"></div>
     <div id="error-message">
     </div>
- 
 </body>
-
 </html>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -39,7 +37,4 @@ include '../assets/links.html';
         window.location.href = "index.php";
     }, 10000);
     startProgressBar(10000, '1');
-
-
-   
 </script>

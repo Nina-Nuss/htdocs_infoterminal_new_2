@@ -271,7 +271,6 @@ window.addEventListener("load", async function () {
             const formData = new FormData(form);
             console.log(form);
             console.log(formData);
-
             fetch(form.action, {
                 method: 'POST',
                 body: formData
@@ -324,7 +323,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         // saveList(select, "default");
         saveList(infoCounterLimit, "defaultMaxCountForInfoPages");
         saveList(cardCounterLimit, "defaultMaxCountForInfoTerminals");
-
     } catch (err) {
         console.error('Fehler beim Laden der Config:', err);
         return;
@@ -399,5 +397,3 @@ async function update(key, value) {
     const res = await result.json();
     console.log(res);
 }
-
-

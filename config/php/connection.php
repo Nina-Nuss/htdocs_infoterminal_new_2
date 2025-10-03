@@ -4,12 +4,12 @@
 // Versuche Konfiguration aus JSON-Datei zu laden
 
 // $server =  "10.1.6.3";
-$serverName = "10.1.6.3";
+$serverName = "Nina\\SQLEXPRESS";
 
-// $serverName = "10.1.6.3";
+// $serverName = "Nina\\SQLEXPRESS";
 $database = "testdbTerminal";
-$UID = "sa";
-$PWD = "A%00000p&";
+$UID = "";
+$PWD = "";
 
 
 $connectionOptions = array(
@@ -142,3 +142,8 @@ if (!$conn) {
 
 
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes

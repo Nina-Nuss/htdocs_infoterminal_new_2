@@ -934,6 +934,7 @@ function detectLinkType(link) {
     if (checkTikTokUrl(link)) return "tiktok";
     return null; // Unbekannter Typ
 }
+<<<<<<< Updated upstream
 async function meow(selectedValue, liste) {
     debugger
     if (selectedValue === "img") {
@@ -942,6 +943,13 @@ async function meow(selectedValue, liste) {
         console.log(liste.getAll('files[]').size);
         console.log(liste.getAll('files[]').length);
         const result = await sendDatei(liste);
+=======
+async function meow(event, selectedValue, liste) {
+    event.preventDefault();
+    // Improved file upload handling for multiple images
+    if (selectedValue === "img") {
+        const result = await sendDatei();
+>>>>>>> Stashed changes
         if (result) {
             console.log("Infoseite wurde erfolgreich erstellt.");
         } else {
@@ -949,7 +957,11 @@ async function meow(selectedValue, liste) {
         }
         return; // Für Bilder ist es anders, daher return
     } else if (selectedValue === "yt") {
+<<<<<<< Updated upstream
         var { datai, selectedTime, aktiv, titel, description } = prepareFormData(liste);
+=======
+        var { datai, selectedTime, aktiv, titel, description } = prepareFormData();
+>>>>>>> Stashed changes
         console.log("Selected Value:", selectedValue);
         console.log("Link:", liste[0]);
         console.log("Start:", liste[1]);
@@ -993,10 +1005,9 @@ async function meow(selectedValue, liste) {
     } else if (selectedValue === "tempTest") {
         var test1 = liste[0];
         var test2 = liste[1];
-
         alert("diese Option ist noch in Arbeit.");
     } else {
-        const result = await sendDatei(event);
+        const result = await sendDatei();
         alert("Unbekannter Typ ausgewählt.");
         return;
     }
@@ -1011,7 +1022,6 @@ async function meow(selectedValue, liste) {
     }
 }
 async function createInfoseiteObj(serverImageName, selectedTime, aktiv, titel, description) {
-    debugger
     try {
         const obj1 = new Infoseite(
             "",
@@ -1056,6 +1066,7 @@ function checkTikTokUrl(url) {
     const pattern = /^(https?:\/\/)?(www\.)?(tiktok\.com\/(@[\w.-]+\/video\/|embed\/v2\/)|vm\.tiktok\.com\/)[A-Za-z0-9_-]{19}(\S*)?$/;
     return pattern.test(url);
 }
+<<<<<<< Updated upstream
 function prepareFormData(formData) {
     debugger
     var inputContainer = document.getElementById('inputContainer');
@@ -1063,6 +1074,21 @@ function prepareFormData(formData) {
     if (formData.get('files[]')) {
         datai = formData.get('files[]');
         if (!datai.name) {
+=======
+function prepareFormData() {
+    debugger;
+    let formData = null;
+    let datai = null;
+    var infoseiteForm = document.getElementById('infoSeiteForm');
+    let files = infoseiteForm.querySelectorAll('input[type="file"]')[0].files;
+    formData = new FormData(infoseiteForm);
+    filesData = new FormData();
+    console.log(formData.get('youtubeUrl'));
+    if (files) {
+        console.log(files);
+
+        if (!files) {
+>>>>>>> Stashed changes
             alert("Kein Datei-Input für Bilder gefunden.");
             return;
         }
@@ -1070,9 +1096,15 @@ function prepareFormData(formData) {
             alert("Bitte wählen Sie mindestens ein Bild aus.");
             return;
         }
+<<<<<<< Updated upstream
         alert(`Anzahl ausgewählter Bilder: ${datai.length}`);
         for (let i = 0; i < datai.length; i++) {
             formData.append('files[]', datai[i]);
+=======
+        alert(`Anzahl ausgewählter Bilder: ${files.length}`);
+        for (let i = 0; i < files.length; i++) {
+            filesData.append('files[]', files[i]);
+>>>>>>> Stashed changes
         }
     } else if (formData.get('youtubeUrl')) {
         datai = formData.get('youtubeUrl');
@@ -1081,10 +1113,15 @@ function prepareFormData(formData) {
     const aktiv = formData.get('aktiv'); // Wert der ausgewählten Option
     const titel = formData.get('title');
     const description = formData.get('description');
-    return { formData, datai, selectedTime, aktiv, titel, description };
+    return { filesData, selectedTime, aktiv, titel, description };
 }
+<<<<<<< Updated upstream
 async function sendDatei(event) {
     let { formData, selectedTime, aktiv, titel, description } = prepareFormData(event); // Formulardaten vorbereiten
+=======
+async function sendDatei() {
+    let { filesData, selectedTime, aktiv, titel, description } = prepareFormData(); // Formulardaten vorbereiten
+>>>>>>> Stashed changes
     console.log("Selected Time:", selectedTime);
     if (!datai || selectedTime === "" || aktiv === null || titel === "") {
         alert("Bitte füllen Sie alle pflicht Felder aus, inklusive Bild.");
@@ -1100,7 +1137,7 @@ async function sendDatei(event) {
         alert("Bitte wählen Sie eine Datei aus.");
         return false;
     }
-    const serverImageName = await sendPicture(formData);
+    const serverImageName = await sendPicture(filesData);
     console.log("Server Image Name:", serverImageName);
     // Infoseite mit dem vom Server erhaltenen Bildnamen erstellen
     if (serverImageName === "") {
@@ -1113,22 +1150,30 @@ async function sendDatei(event) {
     Template.resetForm("infoSeiteForm");
     return true;
 }
-async function sendPicture(datai) {
+async function sendPicture(filesData) {
+    debugger;
     try {
         const response = await fetch("../php/movePic.php", {
             method: 'POST',
-            body: datai
+          
+            body: filesData // Sende das Objekt als JSON-String
         });
-        let imageName = await response.text();
-        console.log("Bildname vom Server:", imageName);
-        // Falls der Server einen Pfad zurückgibt, extrahiere nur den Dateinamen
-        if (imageName.includes('../../uploads/img/')) {
-            imageName = imageName.split('/').pop(); // Extrahiere nur den Dateinamen
-
-        } else if (imageName.includes('../../uploads/video/')) {
-            imageName = imageName.split('/').pop(); // Extrahiere nur den Dateinamen
+        if (!response.ok) {
+            throw new Error('Netzwerkantwort war nicht ok');
         }
-        return imageName;
+        let imageName = await response.text();
+        console.log("result:", imageName);
+        imageList = []
+        imageName.forEach(element => {
+            if (element.includes('../../uploads/img/')) {
+                element = element.split('/').pop(); // Extrahiere nur den Dateinamen
+                imageList.push(element);
+            } else if (element.includes('../../uploads/video/')) {
+                element = element.split('/').pop(); // Extrahiere nur den Dateinamen
+                imageList.push(element);
+            }            
+        });
+        return imageList;
     } catch (error) {
         console.error('Error:', error);
 
