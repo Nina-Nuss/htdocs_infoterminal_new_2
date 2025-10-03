@@ -2,87 +2,81 @@
 <html lang="de">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Bootstrap Image Input Container</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    .image-container {
-      width: 300px;
-      height: 200px;
-      border: 2px dashed #6c757d;
-      border-radius: 10px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      cursor: pointer;
-      background-color: #f8f9fa;
-      margin-bottom: 1rem;
-    }
+    <meta charset="UTF-8">
+    <title>Bootstrap Image Input Container</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .image-container {
+            width: 300px;
+            height: 200px;
+            border: 2px dashed #6c757d;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            margin-bottom: 1rem;
+        }
 
-    .image-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
 
-    .image-container span {
-      color: #6c757d;
-      font-size: 1.2rem;
-      text-align: center;
-    }
+        .image-container span {
+            color: #6c757d;
+            font-size: 1.2rem;
+            text-align: center;
+        }
 
-    input[type="file"] {
-      display: none;
-    }
-  </style>
+        input[type="file"] {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="p-4">
 
-  <div class="container">
-    <h3 class="mb-3">Mehrere Bild-Container</h3>
-
-    <!-- Container 1 -->
-    <input type="file" id="imageInput0" accept="image/*">
-    <label for="imageInput0" class="image-container" id="imagePreview0">
-      <span>Klick hier, um ein Bild auszuwählen</span>
-    </label>
-
-    <!-- Container 2 -->
-    <input type="file" id="imageInput1" accept="image/*">
-    <label for="imageInput1" class="image-container" id="imagePreview1">
-      <span>Klick hier, um ein Bild auszuwählen</span>
-    </label>
-
-    <!-- Container 3 -->
-    <input type="file" id="imageInput2" accept="image/*">
-    <label for="imageInput2" class="image-container" id="imagePreview2">
-      <span>Klick hier, um ein Bild auszuwählen</span>
-    </label>
-  </div>
-
-  <script>
-    function setupImagePreview(inputId, previewId) {
-      const input = document.getElementById(inputId);
-      const preview = document.getElementById(previewId);
-
-      input.addEventListener('change', function () {
-        if (this.files && this.files[0]) {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-          }
-          reader.readAsDataURL(this.files[0]);
+    <div class="container">
+        <h3 class="mb-3">Mehrere Bild-Container</h3>
+        <!-- Container 1 -->
+        <input type="file" id="imageInput0" accept="image/*">
+        <label for="imageInput0" class="image-container" id="imagePreview0">
+            <span>Klick hier, um ein Bild auszuwählen</span>
+        </label>
+        <!-- Container 2 -->
+        <input type="file" id="imageInput1" accept="image/*">
+        <label for="imageInput1" class="image-container" id="imagePreview1">
+            <span>Klick hier, um ein Bild auszuwählen</span>
+        </label> 
+        <!-- Container 3 -->
+        <input type="file" id="imageInput2" accept="image/*">
+        <label for="imageInput2" class="image-container" id="imagePreview2">
+            <span>Klick hier, um ein Bild auszuwählen</span>
+        </label>
+    </div>
+    <script>
+        function setupImagePreview(inputId, previewId) {
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            input.addEventListener('change', function () {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
         }
-      });
-    }
-
-    // Alle Container initialisieren
-    setupImagePreview('imageInput0', 'imagePreview0');
-    setupImagePreview('imageInput1', 'imagePreview1');
-    setupImagePreview('imageInput2', 'imagePreview2');
-  </script>
+        // Alle Container initialisieren
+        setupImagePreview('imageInput0', 'imagePreview0');
+        setupImagePreview('imageInput1', 'imagePreview1');
+        setupImagePreview('imageInput2', 'imagePreview2');
+    </script>
 
 </body>
 
